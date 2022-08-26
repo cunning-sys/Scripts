@@ -4,6 +4,12 @@ local MainColunm1 = MainTab:AddColumn();
 local MainColunm2 = MainTab:AddColumn();
 local KillauraSection = MainColunm1:AddSection("Killaura")
 local WeaponSpamSection = MainColunm2:AddSection("Weapon Spam")
+local AutoCollectSection = MainColunm1:AddSection("Auto Collect Items")
+local CollectCubitsSection = MainColunm2:AddSection("Collect Cubits")
+local MiscTab = library:AddTab("Misc")
+local MiscColunm1 = MiscTab:AddColumn();
+local MiscColunm2 = MiscTab:AddColumn();
+local MiscSection1 = MiscColunm1:AddSection("Player")
 
 local plr = game.Players.LocalPlayer
 
@@ -73,6 +79,61 @@ end
 end})
 WeaponSpamSection:AddBox({text = "Delay", flag = "WeaponSpamDelay"}); -- :AddSlider{text = "Delay", flag = "WeaponSpamDelay", min = 0.1, max = 10.0, value = 2, suffix = ""}
 WeaponSpamSection:AddList({text = "Weapon Spam Ability", flag = "WeaponSpamAbility", value = "Hallow Greatsword", values = {"Hallow Greatsword", "Empyreus Judgement Blade", "Captain's Flintlock", "Magician's Rod", "Aurelion Hood"}});
+
+AutoCollectSection:AddToggle({text = "Auto Collect", flag = "AutoCollectEnabled", callback = function()
+    local Items = game:GetService("Workspace").Projectiles
+
+    while library.flags.AutoCollectEnabled do
+        task.wait()
+        for i,v in pairs(Items:GetChildren()) do
+            local Prox = v:FindFirstChildOfClass("ProximityPrompt");
+            if Prox then
+                fireproximityprompt(Prox, 1)
+            end
+        end
+    end
+end});
+
+CollectCubitsSection:AddButton({text = "Collet Cubits", callback = function()
+    local Cubits = game:GetService("Workspace")["Client Cubits"]
+
+    for i,v in pairs(Cubits:GetChildren()) do
+        local Prox = v:FindFirstChildOfClass("ProximityPrompt");
+        if Prox then
+            fireproximityprompt(Prox, 1)
+        end
+    end
+end});
+
+MiscSection1:AddToggle({text = "Walk Speed", flag = "WalkSpeedEnabled", callback = function()
+    while library.flags.WalkSpeedEnabled do
+        task.wait()
+        if library.flags.WalkSpeedEnabled == false then
+            game.Players.LocalPlayer.Character.Humanoid.WalkSpeed = 16
+        else
+            game.Players.LocalPlayer.Character.Humanoid.WalkSpeed = library.flags.WalkSpeed
+        end
+    end
+end});
+MiscSection1:AddSlider{text = "Walk Speed", flag = "WalkSpeed", min = 16, max = 250, value = 16, suffix = ""}
+MiscSection1:AddToggle({text = "Jump Power", flag = "JumpPowerEnabled", callback = function()
+    while library.flags.JumpPowerEnabled do
+        task.wait()
+        if library.flags.JumpPowerEnabled == false then
+            game.Players.LocalPlayer.Character.Humanoid.JumpPower = 16
+        else
+            game.Players.LocalPlayer.Character.Humanoid.JumpPower = library.flags.JumpPower
+        end
+    end
+end});
+MiscSection1:AddSlider{text = "Jump Power", flag = "Jump Power", min = 50, max = 500, value = 16, suffix = ""}
+MiscSection1:AddToggle({text = "Freeze", flag = "FreezeEnabled", callback = function()
+    if game.Players.LocalPlayer.Character.HumanoidRootPart.Anchored == true then
+        game.Players.LocalPlayer.Character.HumanoidRootPart.Anchored = false
+    else
+        game.Players.LocalPlayer.Character.HumanoidRootPart.Anchored = true
+    end
+end});
 
 local SettingsTab = library:AddTab("Settings"); 
 local SettingsColumn = SettingsTab:AddColumn(); 
