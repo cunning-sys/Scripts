@@ -140,10 +140,10 @@ MiscSection1:AddToggle({text = "Jump Power", flag = "JumpPowerEnabled", callback
 end});
 MiscSection1:AddSlider{text = "Jump Power", flag = "Jump Power", min = 50, max = 500, value = 16, suffix = ""}
 MiscSection1:AddToggle({text = "Freeze", flag = "FreezeEnabled", callback = function()
-    if game.Players.LocalPlayer.Character.HumanoidRootPart.Anchored == true then
-        game.Players.LocalPlayer.Character.HumanoidRootPart.Anchored = false
-    else
+    if game.Players.LocalPlayer.Character.HumanoidRootPart.Anchored == false then
         game.Players.LocalPlayer.Character.HumanoidRootPart.Anchored = true
+    else
+        game.Players.LocalPlayer.Character.HumanoidRootPart.Anchored = false
     end
 end});
 
@@ -230,3 +230,9 @@ end});
 
 library:Init();
 library:selectTab(library.tabs[1]);
+
+game.Players.LocalPlayer.Character.HumanoidRootPart.Anchored = false
+
+for i,v in pairs(getconnections(game.Players.LocalPlayer.Idled)) do
+    v:Disable()
+end
