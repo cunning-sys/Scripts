@@ -93,6 +93,18 @@ AutoCollectSection:AddToggle({text = "Auto Collect", flag = "AutoCollectEnabled"
         end
     end
 end});
+AutoCollectSection:AddToggle({text = "Auto Dice (Turn on Auto Collect)", flag = "AutoDiceEnabled", callback = function()
+    local plr = game.Players.LocalPlayer
+
+    while library.flags.AutoDiceEnabled do
+        task.wait()
+        for i,v in pairs (game:GetService("Workspace").Projectiles:GetDescendants()) do
+            if v.Name == "BillboardGui" then
+                plr.Character.HumanoidRootPart.CFrame = v.Parent.CFrame
+            end
+        end
+    end
+end});
 
 CollectCubitsSection:AddButton({text = "Collet Cubits", callback = function()
     local Cubits = game:GetService("Workspace")["Client Cubits"]
