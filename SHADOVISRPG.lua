@@ -5,11 +5,22 @@ local MainColunm2 = MainTab:AddColumn();
 local KillauraSection = MainColunm1:AddSection("Killaura")
 local WeaponSpamSection = MainColunm2:AddSection("Weapon Spam")
 
+local plr = game.Players.LocalPlayer
+
+for i,v in pairs(plr.Character.Equipment:GetDescendants()) do
+    if v.Name == "SwordGrip" then
+        getgenv().Weapon = v.Parent.Parent.Name
+        print(getgenv().Weapon)
+    end
+end
+
 KillauraSection:AddToggle({text = "Killaura", flag = "KillauraEnabled", callback = function()
     local plr = game.Players.LocalPlayer
 
     local function kill(thing)
-        plr.Character.Combat.RemoteEvent:FireServer("Input", library.flags.KillauraWeapon, 0, "SlashEvent", thing.HumanoidRootPart)
+        if thing and thing:FindFirstChild("Humanoid") and thing.Humanoid.Health > 0 then
+            plr.Character.Combat.RemoteEvent:FireServer("Input", getgenv().Weapon, 0, getgenv().Event, thing.HumanoidRootPart)
+        end
     end
 
     while library.flags.KillauraEnabled do
@@ -22,35 +33,46 @@ KillauraSection:AddToggle({text = "Killaura", flag = "KillauraEnabled", callback
             end
         end
     end
-end})
+end});
 
+KillauraSection:AddList({text = "Killaura Method", flag = "KillauraEvent", value = "Swords / Axes / Daggers", values = {"Swords / Axes / Daggers", "Mallets", "Lances"}, callback = function(value)
+    if library.flags.KillauraEvent == "Swords / Axes / Daggers" then
+        getgenv().Event = "SlashEvent"
+    elseif library.flags.KillauraEvent == "Mallets" then
+        getgenv().Event = "SlamEvent"
+    elseif library.flags.KillauraEvent == "Lances" then
+        getgenv().Event = "JoustHurt"
+    end
+    print(value)
+    print(getgenv().Event)
+end});
 KillauraSection:AddSlider{text = "Range", flag = "KillauraRange", min = 1, max = 25, value = 25, suffix = ""}
-KillauraSection:AddBox({text = "Weapon", flag = "KillauraWeapon"});
+KillauraSection:AddButton({text = "Refresh Weapon", callback = function()
+    for i,v in pairs(plr.Character.Equipment:GetDescendants()) do
+        if v.Name == "SwordGrip" then
+            getgenv().Weapon = v.Parent.Parent.Name
+        end
+    end
+end});
 
 WeaponSpamSection:AddToggle({text = "Weapon Spam", flag = "WeaponSpamEnabled", callback = function()
 while library.flags.WeaponSpamEnabled do
     task.wait(library.flags.WeaponSpamDelay)
     if library.flags.WeaponSpamAbility == "Hallow Greatsword" then
-        local args = {
-            [1] = "Input",
-            [2] = "HallowHallow Greatsword",
-            [3] = 4.571428571428571,
-            [4] = "Hallows"
-        }
-        game:GetService("Players").LocalPlayer.Character.Combat.RemoteEvent:FireServer(unpack(args))
+        game:GetService("Players").LocalPlayer.Character.Combat.RemoteEvent:FireServer("Input", "HallowHallow Greatsword", 4.571428571428571, "Hallows")
     elseif library.flags.WeaponSpamAbility == "Empyreus Judgement Blade" then
-        local args = {
-            [1] = "Input",
-            [2] = "EmpyreusJudgement Blade",
-            [3] = 10,
-            [4] = "Cast"
-        }
-        game:GetService("Players").LocalPlayer.Character.Combat.RemoteEvent:FireServer(unpack(args))
+        game:GetService("Players").LocalPlayer.Character.Combat.RemoteEvent:FireServer("Input", "EmpyreusJudgement Blade", 10, "Cast")
+    elseif library.flags.WeaponSpamAbility == "Captain's Flintlock" then
+        game:GetService("Players").LocalPlayer.Character.Combat.RemoteEvent:FireServer("Input", "Captain's Flintlock", 0.625, "Flintlock")
+    elseif library.flags.WeaponSpamAbility == "Magician's Rod" then
+        game:GetService("Players").LocalPlayer.Character.Combat.RemoteEvent:FireServer("Input", "Magician's Rod", 0.75, "Fireball")
+    elseif library.flags.WeaponSpamAbility == "Aurelion Hood" then 
+        game:GetService("Players").LocalPlayer.Character.Combat.RemoteEvent:FireServer("Input", "AureusAurelion Hood", 20, "Darkness")
     end
 end
 end})
 WeaponSpamSection:AddBox({text = "Delay", flag = "WeaponSpamDelay"}); -- :AddSlider{text = "Delay", flag = "WeaponSpamDelay", min = 0.1, max = 10.0, value = 2, suffix = ""}
-WeaponSpamSection:AddList({text = "Weapon Spam Ability", flag = "WeaponSpamAbility", value = "Hallow Greatsword", values = {"Hallow Greatsword", "Empyreus Judgement Blade"}});
+WeaponSpamSection:AddList({text = "Weapon Spam Ability", flag = "WeaponSpamAbility", value = "Hallow Greatsword", values = {"Hallow Greatsword", "Empyreus Judgement Blade", "Captain's Flintlock", "Magician's Rod", "Aurelion Hood"}});
 
 local SettingsTab = library:AddTab("Settings"); 
 local SettingsColumn = SettingsTab:AddColumn(); 
