@@ -2148,7 +2148,7 @@ b:Button(
 )
 local d = game:GetService("Players")
 local f = d.LocalPlayer
-local _ = {1497173687, 2634438358}
+local _ = {3037313635, 2634438358}
 local b = "/e"
 local function c(_)
     keypress(_)
@@ -2226,52 +2226,3 @@ for _, _ in ipairs(d:GetPlayers()) do
     c(_)
 end
 setfpscap(444)
-wait(0.5)
-local _ = Instance.new("ScreenGui")
-local d = Instance.new("TextLabel")
-local a = Instance.new("Frame")
-local b = Instance.new("TextLabel")
-local c = Instance.new("TextLabel")
-_.Parent = game.CoreGui
-_.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
-d.Parent = _
-d.Active = true
-d.BackgroundColor3 = Color3.new(0.176471, 0.176471, 0.176471)
-d.Draggable = true
-d.Position = UDim2.new(236236, 235235235, 235235235)
-d.Size = UDim2.new(345, 50, 34)
-d.Font = Enum.Font.SourceSansSemibold
-d.Text = "Anti AFK Script"
-d.TextColor3 = Color3.new(0, 1, 1)
-d.TextSize = 22
-a.Parent = d
-a.BackgroundColor3 = Color3.new(0.196078, 0.196078, 0.196078)
-a.Position = UDim2.new(0, 0, 1.0192306, 0)
-a.Size = UDim2.new(0, 370, 0, 107)
-b.Parent = a
-b.BackgroundColor3 = Color3.new(0.176471, 0.176471, 0.176471)
-b.Position = UDim2.new(0, 0, 0.800455689, 0)
-b.Size = UDim2.new(0, 370, 0, 21)
-b.Font = Enum.Font.Arial
-b.Text = "made by ur mom "
-b.TextColor3 = Color3.new(0, 1, 1)
-b.TextSize = 20
-c.Parent = a
-c.BackgroundColor3 = Color3.new(0.176471, 0.176471, 0.176471)
-c.Position = UDim2.new(0, 0, 0.158377, 0)
-c.Size = UDim2.new(0, 370, 0, 44)
-c.Font = Enum.Font.ArialBold
-c.Text = "Status: Active"
-c.TextColor3 = Color3.new(0, 1, 1)
-c.TextSize = 20
-local _ = game:service "VirtualUser"
-game:service "Players".LocalPlayer.Idled:connect(
-    function()
-        _:CaptureController()
-        _:ClickButton2(Vector2.new())
-        c.Text = "Roblox tried to kick u but i kicked him instead"
-        wait(2)
-        c.Text = "Status : Active"
-    end
-)
-print("This script has an FPS & ANTI-AFK built into it.")
