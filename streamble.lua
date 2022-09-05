@@ -1,7 +1,3 @@
-getgenv().Ran = true
-
-if Ran then return end
-
 local Aiming = loadstring(game:HttpGet("https://raw.githubusercontent.com/cunning-sys/Scripts/main/aimingmodule.lua"))()
 Aiming.TeamCheck(false)
 
