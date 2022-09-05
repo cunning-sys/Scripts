@@ -1,3 +1,7 @@
+getgenv().Ran = true
+
+if Ran then return end
+
 local Aiming = loadstring(game:HttpGet("https://raw.githubusercontent.com/cunning-sys/Scripts/main/aimingmodule.lua"))()
 Aiming.TeamCheck(false)
 
@@ -14,8 +18,8 @@ getgenv().DaHoodSettings = {
     SilentAim = true,
     AimLock = false,
     Prediction = 0.14,
-    AimLockKeybind = Enum.KeyCode.E
-    SilentAimToggle = "V"
+    AimLockKeybind = Enum.KeyCode.E,
+    SilentAimBind = "V"
 }
 
 function Aiming.Check()
@@ -60,13 +64,13 @@ RunService:BindToRenderStep("AimLock", 0, function()
     end)
 
 game:service"UserInputService".InputBegan:connect(function(key)
-if key.KeyCode == Enum.KeyCode[DaHoodSettings.SilentAimToggle] then
-if DaHoodSettings.SilentAim then
- DaHoodSettings.SilentAim = false
-        print(DaHoodSettings.SilentAim)
+if key.KeyCode == Enum.KeyCode[DaHoodSettings.SilentAimBind] then
+if DaHoodSettings.SilentAim == false then
+ DaHoodSettings.SilentAim = true
 else
-DaHoodSettings.SilentAim = true
-        print(DaHoodSettings.SilentAim)
+if DaHoodSettings.SilentAim == true then
+DaHoodSettings.SilentAim = false
+end
 end
 end
 end)
