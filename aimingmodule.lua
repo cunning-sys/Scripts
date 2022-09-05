@@ -4,10 +4,8 @@ if getgenv().Aiming then return getgenv().Aiming end
 local Players = game:GetService("Players")
 local Workspace = game:GetService("Workspace")
 local GuiService = game:GetService("GuiService")
-local RunService = game:GetService("RunService")
 
 -- // Vars
-local Heartbeat = RunService.Heartbeat
 local LocalPlayer = Players.LocalPlayer
 local CurrentCamera = Workspace.CurrentCamera
 local Mouse = LocalPlayer:GetMouse()
@@ -429,10 +427,10 @@ function Aiming.GetClosestPlayerToCursor()
 end
 
 -- // Heartbeat Function
-Heartbeat:Connect(function()
+while task.wait() do
     Aiming.UpdateFOV()
     Aiming.GetClosestPlayerToCursor()
-end)
+end
 
 -- //
 return Aiming
