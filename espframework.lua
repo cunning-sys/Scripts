@@ -1,3 +1,11 @@
+--[[------------------------------------------------
+|
+|    Library Made for IonHub (discord.gg/seU6gab)
+|    Developed by tatar0071#0627 and tested#0021
+|    IF YOU USE THIS, PLEASE CREDIT DEVELOPER(S)!
+|
+--]]------------------------------------------------
+
 -- Services
 local Workspace = game:GetService("Workspace")
 local Camera = Workspace.CurrentCamera
@@ -352,34 +360,34 @@ do -- Player Metatable
                     local Armor_Left_Size_Outline = Vector2.new(3, Box_Size.Y - 4)
                     local Armor_Left_Pos_Outline = Vector2.new(X_Maximal + Box_Size.X - 6, Box_Position.Y + 2)
                     local Armor_Left_Size_Fill = Vector2.new(1, (Current_Armor * Armor_Left_Size_Outline.Y / Armor_Maximum) + 2)
-                    local Armor_Left_Pos_Fill = Armor_Left_Pos_Outline + Vector2.new(1,-1 + -(Armor_Left_Size_Fill.Y - Health_Left_Size_Fill.Y));
+                    local Armor_Left_Pos_Fill = Armor_Left_Pos_Outline + Vector2.new(1,-1 + -(Armor_Left_Size_Fill.Y - Armor_Left_Size_Fill.Y));
 
                     local Armorbar_Settings = ESP.Settings.Armorbar
                     local Armorbar_Enabled = Armorbar_Settings.Enabled
                     local Armorbar_Position = Armorbar_Settings.Position
-                    local Armor_Lerp_Color = Armor_Settings.Color:Lerp(Healthbar_Settings.Color_Lerp, Current_Armor / Armor_Maximum)
+                    local Armor_Lerp_Color = Armor_Settings.Color:Lerp(Armorbar_Settings.Color_Lerp, Current_Armor / Armor_Maximum)
                     if Armorbar_Enabled then
                         if Armorbar_Position == "Left" then
-                            Armorbar.Size = Health_Left_Size_Fill;
-                            Armorbar.Position = Health_Left_Pos_Fill;
-                            Armorbar_Outline.Size = Health_Left_Size_Outline;
-                            Armorbar_Outline.Position = Health_Left_Pos_Outline;
+                            Armorbar.Size = Armor_Left_Size_Fill;
+                            Armorbar.Position = Armor_Left_Pos_Fill;
+                            Armorbar_Outline.Size = Armor_Left_Size_Outline;
+                            Armorbar_Outline.Position = Armor_Left_Pos_Outline;
                         elseif Armorbar_Position == "Right" then
-                            Armorbar.Size = Health_Left_Size_Fill;
+                            Armorbar.Size = Armor_Left_Size_Fill;
                             Armorbar.Position = Vector2.new(X_Maximal + Box_Size.X + 4, Box_Position.Y + 1) - Vector2.new(Box_Size.X, 0)
-                            Armorbar_Outline.Size = Health_Left_Size_Outline
+                            Armorbar_Outline.Size = Armor_Left_Size_Outline
                             Armorbar_Outline.Position = Vector2.new(X_Maximal + Box_Size.X + 3, Box_Position.Y + 2) - Vector2.new(Box_Size.X, 0)
                         elseif Armorbar_Position == "Top" then
-                            Armorbar.Size = Health_Top_Size_Fill;
-                            Armorbar.Position = Health_Top_Pos_Fill;
-                            Armorbar_Outline.Size = Health_Top_Size_Outline;
-                            Armorbar_Outline.Position = Health_Top_Pos_Outline;
+                            Armorbar.Size = Armor_Top_Size_Fill;
+                            Armorbar.Position = Armor_Top_Pos_Fill;
+                            Armorbar_Outline.Size = Armor_Top_Size_Outline;
+                            Armorbar_Outline.Position = Armor_Top_Pos_Outline;
                             Top_Offset = Top_Offset + 6
                         elseif Armorbar_Position == "Bottom" then
-                            Armorbar.Size = Health_Top_Size_Fill
-                            Armorbar.Position = Health_Top_Pos_Fill - Vector2.new(0, Box_Size.Y - 9)
-                            Armorbar_Outline.Size = Health_Top_Size_Outline;
-                            Armorbar_Outline.Position = Health_Top_Pos_Outline - Vector2.new(0, Box_Size.Y - 9)
+                            Armorbar.Size = Armor_Top_Size_Fill
+                            Armorbar.Position = Armor_Top_Pos_Fill - Vector2.new(0, Box_Size.Y - 9)
+                            Armorbar_Outline.Size = Armor_Top_Size_Outline;
+                            Armorbar_Outline.Position = Armor_Top_Pos_Outline - Vector2.new(0, Box_Size.Y - 9)
                             Bottom_Offset = Bottom_Offset + 6
                         end
                         Armorbar.Color = Armor_Lerp_Color
@@ -725,5 +733,6 @@ local Connection = RunService.RenderStepped:Connect(function()
     for i, Object in pairs(ESP.Objects) do
         Object:Update()
     end
+end)
 
 return ESP, Connection, Framework
