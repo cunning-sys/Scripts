@@ -1,11 +1,3 @@
---[[------------------------------------------------
-|
-|    Library Made for IonHub (discord.gg/seU6gab)
-|    Developed by tatar0071#0627 and tested#0021
-|    IF YOU USE THIS, PLEASE CREDIT DEVELOPER(S)!
-|
---]]------------------------------------------------
-
 -- Services
 local Workspace = game:GetService("Workspace")
 local Camera = Workspace.CurrentCamera
@@ -132,13 +124,13 @@ end
 
 function ESP:Get_Armor(Player)
     if self.Overrides.Get_Character ~= nil then
-        return self.Overrides.Get_Health(Player)
+        return self.Overrides.Get_Armor(Player)
     end
     local Character = self:Get_Character(Player)
     if Character then
         local BodyEffects = Character:FindFirstChildOfClass("BodyEffects")
         if BodyEffects then
-            return Humanoid.Armor.Value
+            return BodyEffects.Armor.Value
         end
     end
     return 0
@@ -198,9 +190,6 @@ do -- Player Metatable
     function Player_Metatable:Destroy()
         for Index, Component in pairs(self.Components) do
             if tostring(Index) == "Chams" then
-                if _G.chamsEnabled == true then
-                    Component:Destroy()
-                end
                 self.Components[Index] = nil
                 continue
             end
@@ -217,7 +206,7 @@ do -- Player Metatable
         local Distance, DistanceBold = self.Components.Distance, self.Components.DistanceBold
         local Tool, ToolBold = self.Components.Tool, self.Components.ToolBold
         local Health, HealthBold = self.Components.Health, self.Components.HealthBold
-        local Chams = _G.chamsEnabled == true and self.Components.Chams or true
+        local Chams = self.Components.Chams
         if Box == nil or Box_Outline == nil or Healthbar == nil or Healthbar_Outline == nil or Name == nil or NameBold == nil or Distance == nil or DistanceBold == nil or Tool == nil or ToolBold == nil or Health == nil or HealthBold == nil or Chams == nil then
             self:Destroy()
         end
@@ -237,9 +226,7 @@ do -- Player Metatable
                 ToolBold.Visible = false
                 Health.Visible = false
                 HealthBold.Visible = false
-                if _G.chamsEnabled == true then
-                    Chams.Enabled = false
-                end
+                Chams.Enabled = false
                 return
             end
             local Current_Health, Health_Maximum = ESP:Get_Health(self.Player), Humanoid.MaxHealth
@@ -538,21 +525,19 @@ do -- Player Metatable
                     HealthBold.Visible = Health.Visible and ESP.Settings.Bold_Text
 
                     -- Chams
-                    if _G.chamsEnabled == true then
-                        local Chams_Settings = ESP.Settings.Chams
-                        local Is_Visible = false
-                        if ESP:Check_Visible(Head) or ESP:Check_Visible(HumanoidRootPart) then
-                            Is_Visible = true
-                        end
-                        local Chams_Enabled = Chams_Settings.Enabled
-                        Chams.Enabled = Chams_Enabled
-                        Chams.Adornee = Chams_Enabled and Character or nil
-                        if Chams_Enabled then
-                            Chams.FillColor = Chams_Settings.Mode == "Visible" and Is_Visible and Color3.new(0, 1, 0) or Chams_Settings.Color
-                            Chams.OutlineColor = Chams_Settings.OutlineColor
-                            Chams.FillTransparency = Chams_Settings.Transparency
-                            Chams.OutlineTransparency = Chams_Settings.OutlineTransparency
-                        end
+                    local Chams_Settings = ESP.Settings.Chams
+                    local Is_Visible = false
+                    if ESP:Check_Visible(Head) or ESP:Check_Visible(HumanoidRootPart) then
+                        Is_Visible = true
+                    end
+                    local Chams_Enabled = Chams_Settings.Enabled
+                    Chams.Enabled = Chams_Enabled
+                    Chams.Adornee = Chams_Enabled and Character or nil
+                    if Chams_Enabled then
+                        Chams.FillColor = Chams_Settings.Mode == "Visible" and Is_Visible and Color3.new(0, 1, 0) or Chams_Settings.Color
+                        Chams.OutlineColor = Chams_Settings.OutlineColor
+                        Chams.FillTransparency = Chams_Settings.Transparency
+                        Chams.OutlineTransparency = Chams_Settings.OutlineTransparency
                     end
                 else
                     Box.Visible = false
@@ -567,9 +552,7 @@ do -- Player Metatable
                     ToolBold.Visible = false
                     Health.Visible = false
                     HealthBold.Visible = false
-                    if _G.chamsEnabled == true then
-                        Chams.Enabled = false
-                    end
+                    Chams.Enabled = false
                     return
                 end
             else
@@ -585,9 +568,7 @@ do -- Player Metatable
                 ToolBold.Visible = false
                 Health.Visible = false
                 HealthBold.Visible = false
-                if _G.chamsEnabled == true then
-                    Chams.Enabled = false
-                end
+                Chams.Enabled = false
                 return
             end
         else
@@ -603,9 +584,7 @@ do -- Player Metatable
             ToolBold.Visible = false
             Health.Visible = false
             HealthBold.Visible = false
-            if _G.chamsEnabled == true then
-                Chams.Enabled = false
-            end
+            Chams.Enabled = false
             return
         end
     end
@@ -686,7 +665,7 @@ do -- ESP Functions
         Components.ToolBold = Framework:Draw("Text", {Font = 2, Size = 13, Center = true})
         Components.Health = Framework:Draw("Text", {Font = 2, Size = 13, Outline = true, Center = true})
         Components.HealthBold = Framework:Draw("Text", {Font = 2, Size = 13, Center = true})
-        Components.Chams = _G.chamsEnabled == true and Framework:Instance("Highlight", {Parent = CoreGui, DepthMode = Enum.HighlightDepthMode.AlwaysOnTop}) or true
+        Components.Chams = Framework:Instance("Highlight", {Parent = CoreGui, DepthMode = Enum.HighlightDepthMode.AlwaysOnTop}) or true
         self.Objects[Instance] = Object
         return Object
     end
@@ -726,13 +705,5 @@ do -- ESP Functions
         return Object
     end
 end
-
--- Render Connection
-local Connection = RunService.RenderStepped:Connect(function()
-    -- Object Updating
-    for i, Object in pairs(ESP.Objects) do
-        Object:Update()
-    end
-end)
 
 return ESP, Connection, Framework
