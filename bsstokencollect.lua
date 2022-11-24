@@ -38,11 +38,11 @@ local function moveto(obj, speed)
 end
 if not TokenLoop then
     getgenv().TokenLoop = RunService.RenderStepped:Connect(function()
-        if getgenv().Enabled then
+        if getgenv().Config.Enabled then
             for i,v in pairs(game:GetService("Workspace").Collectibles:GetChildren()) do
                 if v.Name == "C" and v.Transparency ~= 0.699999988079071 then
-                    if table.find(getgenv().Tokens, v.FrontDecal.Texture) then
-                        moveto(v.CFrame + Vector3.new(0, 0, 0), tonumber(getgenv().Speed))
+                    if table.find(getgenv().Config.Tokens, v.FrontDecal.Texture) then
+                        moveto(v.CFrame + Vector3.new(0, 0, 0), tonumber(getgenv().Config.Speed))
                     end
                 end
             end
@@ -51,3 +51,5 @@ if not TokenLoop then
 else
     return
 end
+
+return Config
