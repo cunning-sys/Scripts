@@ -1,5 +1,6 @@
 local RunService = game:GetService("RunService")
 local TweenService = game:GetService("TweenService")
+local hrp = game.Players.LocalPlayer.Character.HumanoidRootPart
 local noclipE = false
 local antifall = false
 
@@ -41,7 +42,7 @@ if not TokenLoop then
         if getgenv().Config.Enabled then
             for i,v in pairs(game:GetService("Workspace").Collectibles:GetChildren()) do
                 if v.Name == "C" and v.Transparency ~= 0.699999988079071 then
-                    if table.find(getgenv().Config.Tokens, v.FrontDecal.Texture) then
+                    if table.find(getgenv().Config.Tokens, v.FrontDecal.Texture) and (hrp.Position - v.Position).magnitude <= getgenv().Config.Distance then
                         moveto(v.CFrame + Vector3.new(0, 0, 0), tonumber(getgenv().Config.Speed))
                     end
                 end
