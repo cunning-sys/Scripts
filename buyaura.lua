@@ -21,10 +21,11 @@ function getClosestBuyPart()
       end
     end
   end
+  return part
 end
 
 RS.Heartbeat:Connect(function()
     local target = getClosestBuyPart()
-    if check and game.Players.LocalPlayer.Character:FindFirstChild("") or game.Players.LocalPlayer.Backpack:FindFirstChild("") then
+    if check and table.find() or table.find() then
       
 end)
