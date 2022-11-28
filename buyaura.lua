@@ -26,6 +26,30 @@ end
 
 RS.Heartbeat:Connect(function()
     local target = getClosestBuyPart()
-    if check and table.find() or table.find() then
-      
+    local  = game.Players.LocalPlayer.Backpack:FindFirstChild("") or game.Players.LocalPlayer.Character:FindFirstChild("")
+    local  = game.Players.LocalPlayer.Backpack:FindFirstChild("") or game.Players.LocalPlayer.Character:FindFirstChild("")
+    local  = game.Players.LocalPlayer.Backpack:FindFirstChild("") or game.Players.LocalPlayer.Character:FindFirstChild("")
+    local  = game.Players.LocalPlayer.Backpack:FindFirstChild("") or game.Players.LocalPlayer.Character:FindFirstChild("")
+    local  = game.Players.LocalPlayer.Backpack:FindFirstChild("") or game.Players.LocalPlayer.Character:FindFirstChild("")
+    local  = game.Players.LocalPlayer.Backpack:FindFirstChild("") or game.Players.LocalPlayer.Character:FindFirstChild("")
+    local  = game.Players.LocalPlayer.Backpack:FindFirstChild("") or game.Players.LocalPlayer.Character:FindFirstChild("")
+    if check then
+      if  then
+        
+      elseif  then
+        
+      elseif  then
+        
+      elseif  then
+        
+      elseif  then
+        
+      elseif  then
+        
+      elseif  then
+        
+      end
+    else
+      fireclickdetector(target)
+    end
 end)
