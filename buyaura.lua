@@ -6,7 +6,7 @@ function getClosestBuyPart()
   local distance = math.huge
   local part
   
-  for i,v in pairs(game.Workspace.Ignored.Shops:GetChildren()) do
+  for i,v in pairs(game.Workspace.Ignored.Shop:GetChildren()) do
     if v:IsA("Part") and table.find(v.Name, table) then
       local targetPart = v
       local mag = (hrp.Position - targetPart.Position).magnitude
