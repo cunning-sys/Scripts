@@ -26,27 +26,20 @@ end
 
 RS.Heartbeat:Connect(function()
     local target = getClosestBuyPart()
-    local  = game.Players.LocalPlayer.Backpack:FindFirstChild("") or game.Players.LocalPlayer.Character:FindFirstChild("")
-    local  = game.Players.LocalPlayer.Backpack:FindFirstChild("") or game.Players.LocalPlayer.Character:FindFirstChild("")
-    local  = game.Players.LocalPlayer.Backpack:FindFirstChild("") or game.Players.LocalPlayer.Character:FindFirstChild("")
-    local  = game.Players.LocalPlayer.Backpack:FindFirstChild("") or game.Players.LocalPlayer.Character:FindFirstChild("")
-    local  = game.Players.LocalPlayer.Backpack:FindFirstChild("") or game.Players.LocalPlayer.Character:FindFirstChild("")
-    local  = game.Players.LocalPlayer.Backpack:FindFirstChild("") or game.Players.LocalPlayer.Character:FindFirstChild("")
-    local  = game.Players.LocalPlayer.Backpack:FindFirstChild("") or game.Players.LocalPlayer.Character:FindFirstChild("")
     if check then
-      if  then
+      if game.Players.LocalPlayer.Backpack:FindFirstChild("") or game.Players.LocalPlayer.Character:FindFirstChild("") then
         
-      elseif  then
+      elseif game.Players.LocalPlayer.Backpack:FindFirstChild("") or game.Players.LocalPlayer.Character:FindFirstChild("") then
         
-      elseif  then
+      elseif game.Players.LocalPlayer.Backpack:FindFirstChild("") or game.Players.LocalPlayer.Character:FindFirstChild("") then
         
-      elseif  then
+      elseif game.Players.LocalPlayer.Backpack:FindFirstChild("") or game.Players.LocalPlayer.Character:FindFirstChild("") then
         
-      elseif  then
+      elseif game.Players.LocalPlayer.Backpack:FindFirstChild("") or game.Players.LocalPlayer.Character:FindFirstChild("") then
         
-      elseif  then
+      elseif game.Players.LocalPlayer.Backpack:FindFirstChild("") or game.Players.LocalPlayer.Character:FindFirstChild("") then
         
-      elseif  then
+      elseif game.Players.LocalPlayer.Backpack:FindFirstChild("") or game.Players.LocalPlayer.Character:FindFirstChild("") then
         
       end
     else
