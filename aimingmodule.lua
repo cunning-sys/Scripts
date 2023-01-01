@@ -33,23 +33,23 @@ local tableinsert = table.insert
 getgenv().Aiming = {
     Enabled = true,
 
-    ShowFOV = false,
-    FOV = 119,
+    ShowFOV = AsuiStreamable.ShowFOV,
+    FOV = AsuiStreamable.FOV,
     FOVSides = 25,
     FOVColour = Color3fromRGB(0, 0, 0),
 
     VisibleCheck = true,
     
-    HitChance = 100,
+    HitChance = AsuiStreamable.HitChance,
 
     Selected = nil,
     SelectedPart = nil,
 
-    TargetPart = {"Head", "HumanoidRootPart"},
+    TargetPart = AsuiStreamable.HitParts,
     
-    BulletRedirection = true,
-    Prediction = 0.1,
-    Resolver = true,
+    BulletRedirection = AsuiStreamable.BulletRedirection,
+    Prediction = AsuiStreamable.Prediction,
+    Resolver = AsuiStreamable.Resolver,
 }
 local Aiming = getgenv().Aiming
 
