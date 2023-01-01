@@ -1,3 +1,5 @@
+if getgenv().Aiming then return getgenv().Aiming end
+
 local Players = game:GetService("Players")
 local Workspace = game:GetService("Workspace")
 local GuiService = game:GetService("GuiService")
@@ -31,24 +33,19 @@ local tableinsert = table.insert
 getgenv().Aiming = {
     Enabled = true,
 
-    SilentAim = true,
-    Prediction = 0.155223312,
-
     ShowFOV = false,
-    FOV = 13,
+    FOV = 119,
     FOVSides = 300,
-    FOVColour = Color3fromRGB(98, 37, 209),
+    FOVColour = Color3fromRGB(0, 0, 0),
 
     VisibleCheck = true,
     
-    HitChance = 110,
-
-    Resolver = false,
+    HitChance = 100,
 
     Selected = nil,
     SelectedPart = nil,
 
-    TargetPart = {"Head", "HumanoidRootPart", "LowerTorso"}
+    TargetPart = {"Head", "HumanoidRootPart"},
 }
 local Aiming = getgenv().Aiming
 
@@ -59,6 +56,7 @@ circle.Color = Aiming.FOVColour
 circle.Filled = false
 Aiming.FOVCircle = circle
 
+-- // Update
 function Aiming.UpdateFOV()
     if not (circle) then
         return
@@ -139,6 +137,7 @@ Aiming.checkSilentAim = Aiming.Check
 
 function Aiming.GetClosestTargetPartToCursor(Character)
     local TargetParts = Aiming.TargetPart
+
     local ClosestPart = nil
     local ClosestPartPosition = nil
     local ClosestPartOnScreen = false
@@ -173,6 +172,7 @@ function Aiming.GetClosestTargetPartToCursor(Character)
                 if not (v:IsA("BasePart")) then
                     continue
                 end
+                
                 CheckTargetPart(v)
             end
         else
@@ -197,16 +197,18 @@ function Aiming.GetClosestPlayerToCursor()
     if (not Chance) then
         Aiming.Selected = LocalPlayer
         Aiming.SelectedPart = nil
+
         return LocalPlayer
     end
 
     for _, Player in ipairs(GetPlayers(Players)) do
         local Character = Aiming.Character(Player)
-        if Character then
+        if (Aiming.IsIgnored(Player) == false and Character) then
             local TargetPartTemp, _, _, Magnitude = Aiming.GetClosestTargetPartToCursor(Character)
             if (TargetPartTemp and Aiming.CheckHealth(Player)) then
                 if (circle.Radius > Magnitude and Magnitude < ShortestDistance) then
                     if (Aiming.VisibleCheck and not Aiming.IsPartVisible(TargetPartTemp, Character)) then continue end
+
                     ClosestPlayer = Player
                     ShortestDistance = Magnitude
                     TargetPart = TargetPartTemp
@@ -214,7 +216,6 @@ function Aiming.GetClosestPlayerToCursor()
             end
         end
     end
-
     Aiming.Selected = ClosestPlayer
     Aiming.SelectedPart = TargetPart
 end
@@ -223,3 +224,5 @@ Heartbeat:Connect(function()
     Aiming.UpdateFOV()
     Aiming.GetClosestPlayerToCursor()
 end)
+
+return Aiming
