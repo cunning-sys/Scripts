@@ -31,7 +31,7 @@ end
 
 task.spawn(function()
     while task.wait() do
-        if DaHoodSettings.Resolver and Aiming.Selected ~= nil and (Aiming.Selected.Character)  then
+        if Aiming.Resolver and Aiming.Selected ~= nil and (Aiming.Selected.Character)  then
             local oldVel = game.Players[Aiming.Selected.Name].Character.HumanoidRootPart.Velocity
             
             game.Players[Aiming.Selected.Name].Character.HumanoidRootPart.Velocity = Vector3.new(oldVel.X, -0, oldVel.Z)
@@ -43,8 +43,8 @@ local __index
 __index = hookmetamethod(game, "__index", function(t, k)
     if (t:IsA("Mouse") and (k == "Hit" or k == "Target") and Aiming.Check()) then
         local SelectedPart = Aiming.SelectedPart
-        if (DaHoodSettings.SilentAim and (k == "Hit" or k == "Target")) then
-            local Hit = SelectedPart.CFrame + (SelectedPart.Velocity * DaHoodSettings.Prediction)
+        if (Aiming.BulletRedirection and (k == "Hit" or k == "Target")) then
+            local Hit = SelectedPart.CFrame + (SelectedPart.Velocity * Aiming.Prediction)
             
             return (k == "Hit" and Hit or SelectedPart)
         end
