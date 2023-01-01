@@ -46,6 +46,10 @@ getgenv().Aiming = {
     SelectedPart = nil,
 
     TargetPart = {"Head", "HumanoidRootPart"},
+    
+    BulletRedirection = true,
+    Prediction = 0.1,
+    Resolver = true,
 }
 local Aiming = getgenv().Aiming
 
