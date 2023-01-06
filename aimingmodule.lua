@@ -33,31 +33,31 @@ local tableinsert = table.insert
 getgenv().Aiming = {
     Enabled = true,
 
-    ShowFOV = AsuiStreamable.ShowFOV,
-    FOV = AsuiStreamable.FOV,
-    FOVSides = 25,
-    FOVColour = Color3fromRGB(0, 0, 0),
+    ShowFOV = true,
+    FOV = 25,
+    FOVSides = 300,
+    FOVColour = Color3.fromRGB(288, 246, 248),
 
     VisibleCheck = true,
     
-    HitChance = AsuiStreamable.HitChance,
+    HitChance = 100,
 
     Selected = nil,
     SelectedPart = nil,
 
-    TargetPart = AsuiStreamable.HitParts,
+    TargetPart = {"Head", "UpperTorso", "LowerTorso"},
     
-    BulletRedirection = AsuiStreamable.BulletRedirection,
-    Prediction = AsuiStreamable.Prediction,
-    Resolver = AsuiStreamable.Resolver,
+    SilentAim = true,
+    Prediction = 0.155223312,
+    Resolver = true,
 }
 local Aiming = getgenv().Aiming
 
 local circle = Drawingnew("Circle")
-circle.Transparency = 1
+circle.Transparency = 0.7
 circle.Thickness = 2
 circle.Color = Aiming.FOVColour
-circle.Filled = false
+circle.Filled = true
 Aiming.FOVCircle = circle
 
 -- // Update
