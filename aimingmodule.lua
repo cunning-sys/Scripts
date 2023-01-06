@@ -206,7 +206,7 @@ function Aiming.GetClosestPlayerToCursor()
 
     for _, Player in ipairs(GetPlayers(Players)) do
         local Character = Aiming.Character(Player)
-        if (Aiming.IsIgnored(Player) == false and Character) then
+        if (Character) then
             local TargetPartTemp, _, _, Magnitude = Aiming.GetClosestTargetPartToCursor(Character)
             if (TargetPartTemp and Aiming.CheckHealth(Player)) then
                 if (circle.Radius > Magnitude and Magnitude < ShortestDistance) then
