@@ -69,7 +69,7 @@ function Aiming.UpdateFOV()
     circle.Radius = (Aiming.FOV * 3)
     circle.Position = Vector2new(Mouse.X, Mouse.Y + GetGuiInset(GuiService).Y)
     circle.NumSides = Aiming.FOVSides
-    circle.Color = Aiming.FOVColour
+    circle.Color = Color3.fromRGB(184, 226, 242)
 
     return circle
 end
