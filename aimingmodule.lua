@@ -48,7 +48,7 @@ getgenv().Aiming = {
     
     SilentAim = true,
     Prediction = 0.155223312,
-    Resolver = true
+    Resolver = false
 }
 local Aiming = getgenv().Aiming
 
