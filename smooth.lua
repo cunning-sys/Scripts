@@ -75,15 +75,30 @@ end
 
 game:GetService("UserInputService").InputBegan:Connect(Ordium.functions.onKeyPress)
 
-Ordium.functions.wallCheck = function(direction, ignoreList)
+Ordium.functions.wallCheck = function(part, parent)
     if not getgenv().Ordium.SilentAim.AimingData.CheckWalls then
         return true
     end
 
-    local ray = Ray.new(Cam.CFrame.p, direction - Cam.CFrame.p)
-    local part, _, _ = game:GetService("Workspace"):FindPartOnRayWithIgnoreList(ray, ignoreList)
+    local char = game.Players.LocalPlayer.Character
+    local campos = cam.CFrame.Position
+    local _, onscreen = cam:WorldToViewportPoint(part.Position)
 
-    return not part
+    if onscreen then
+        local raycastparams = RaycastParams.new()
+        raycastparams.FilterType = Enum.RaycastFilterType.Blacklist
+        raycastparams.FilterDescendantsInstances = {char, cam}
+
+        local ending = game:GetService('Workspace'):Raycast(campos, part.Position - campos, raycastparams)
+
+        if ending then
+            local hit = ending.Instance
+            local visible = not hit or hit:IsDescendantOf(parent)
+
+            return visible
+        end
+    end
+    return false
 end
 
 Ordium.functions.pointDistance = function(part)
@@ -112,7 +127,9 @@ Ordium.functions.returnClosestPart = function(Character)
             end
         end
     end
-    return data.part
+    if getgenv().Ordium.SilentAim.AimingData.CheckWalls and Ordium.functions.wallCheck(data.part, data.part.Parent) then
+        retur7n data.part
+    end
 end
 
 
