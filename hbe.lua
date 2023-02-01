@@ -7,34 +7,34 @@ getgenv().hbsize = 25
 
 HBESection:AddToggle({text = "Hitbox Expander", flag = "HitboxExpanderEnabled", callback = function()
     if library.flags.HitboxExpanderEnabled then
-        for i,v in next, game:GetService('Workspace'):GetDescendants("Head") do 
+        for i,v in next, game:GetService('Workspace'):GetDescendants() do 
             if v.Name == "Head" then
-                pcall(function()
-                v.Size = Vector3.new(hbsize, hbsize, hbsize, hbsize) --Any size it's bypassed now
-                v.Transparency=0.65
-                v.Massless = true
-                v.CanCollide = false
-            end)
+                    pcall(function()
+                    v.Size = Vector3.new(hbsize, hbsize, hbsize, hbsize) --Any size it's bypassed now
+                    v.Transparency=0.65
+                    v.Massless = true
+                    v.CanCollide = false
+                end)
+            end
         end
-        end
-end
+    end
 end})
 
 HBESection:AddSlider({text = "Hitbox Size", flag = "HBESize", min = 1, max = 25, value = 10, suffix = "", callback = function()
-        hbsize = library.flags.HBESize
-        
-        if library.flags.HitboxExpanderEnabled then
-        for i,v in next, game:GetService('Workspace'):GetDescendants("Head") do 
+    hbsize = library.flags.HBESize
+    
+    if library.flags.HitboxExpanderEnabled then
+        for i,v in next, game:GetService('Workspace'):GetDescendants() do 
             if v.Name == "Head" then
                 pcall(function()
-                v.Size = Vector3.new(hbsize, hbsize, hbsize, hbsize) --Any size it's bypassed now
-                v.Transparency=0.65
-                v.Massless = true
-                v.CanCollide = false
-            end)
+                    v.Size = Vector3.new(hbsize, hbsize, hbsize, hbsize) --Any size it's bypassed now
+                    v.Transparency=0.65
+                    v.Massless = true
+                    v.CanCollide = false
+                end)
+            end
         end
-        end
-end
+    end
 end})
 
 local SettingsTab = library:AddTab("Settings"); 
