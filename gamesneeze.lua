@@ -759,44 +759,58 @@ local misc_toggle = misc_main:Toggle({name = "Symbols", Default = false, pointer
 
 
 
-    local settings_page = window:Page({name = "Config", side = "Right", size = 73.2}) do
-    local config_section = settings_page:Section({name = "Configuration", side = "Right"}) do
-            local current_list = {}
-            local function update_config_list()
-                local list = {}
-                for idx, file in ipairs(listfiles("Linux/configs")) do
-                    local file_name = file:gsub("Linux/configs\\",""):gsub(".txt","") list[#list + 1] = file_name end
-                local is_new = #list ~= #current_list
-                if not is_new then
-                    for idx, file in ipairs(list) do
-                        if file ~= current_list[idx] then is_new = true break end end end
-                if is_new then current_list = list pointers["settings/configuration/list"]:UpdateList(list, false, true) end end
-            config_section:Listbox({pointer = "settings/configuration/list"})
-            config_section:Textbox({
-                    pointer = "settings/configuration/name",
-                    placeholder = "Config Name",
-                    text = "",
-                    middle = true,
-                    reset_on_focus = false})
-            config_section:ButtonHolder({Buttons = {{"Create",  function()local config_name = pointers["settings/configuration/name"]:get()
-                if config_name == "" or isfile("Linux/configs/" .. config_name .. ".txt") then return end writefile("Linux/configs/" .. config_name .. ".txt","") update_config_list() end}, {"Delete", function()
-                local selected_config = pointers["settings/configuration/list"]:get()[1][1]
-                if selected_config then
-                    delfile("Linux/configs/" .. selected_config .. ".txt")
-                    update_config_list()
-                end
-                end}}})
-            config_section:ButtonHolder({Buttons = {{"Load", function()
-                local selected_config = pointers["settings/configuration/list"]:get()[1][1]
-                if selected_config then
-                    window:LoadConfig(readfile("Linux/configs/" .. selected_config .. ".txt"))
-                end
-            end}, {"Save", function()
-                local selected_config = pointers["settings/configuration/list"]:get()[1][1]
-                if selected_config then
-                    writefile("Linux/configs/" .. selected_config .. ".txt", window:GetConfig())
-                end
-            end}}}) m_thread.spawn_loop(3, update_config_list) end
+local settings_page = window:Page({name = "Config", side = "Right", size = 73.2})
+local config_section = settings_page:Section({name = "Configuration", side = "Right"})
+local current_list = {}
+local function update_config_list()
+    local list = {}
+    for idx, file in ipairs(listfiles("Linux/configs")) do
+        local file_name = file:gsub("Linux/configs\\",""):gsub(".txt","") list[#list + 1] = file_name end
+        local is_new = #list ~= #current_list
+        if not is_new then
+            for idx, file in ipairs(list) do
+                if file ~= current_list[idx] then 
+                    is_new = true
+                    if is_new then current_list = list pointers["settings/configuration/list"]:UpdateList(list, false, true) end end
+                        config_section:Listbox({pointer = "settings/configuration/list"})
+                        config_section:Textbox({
+                            pointer = "settings/configuration/name",
+                            placeholder = "Config Name",
+                            text = "",
+                            middle = true,
+                            reset_on_focus = false
+                        })
+                        config_section:ButtonHolder({
+                            Buttons = {{"Create",  function()
+                                local config_name = pointers["settings/configuration/name"]:get()
+                                if config_name == "" or isfile("Linux/configs/" .. config_name .. ".txt") then
+                                    return 
+                                end
+                                writefile("Linux/configs/" .. config_name .. ".txt","")
+                                update_config_list()
+                            end}, {"Delete", function()
+                                local selected_config = pointers["settings/configuration/list"]:get()[1][1]
+                                if selected_config then
+                                    delfile("Linux/configs/" .. selected_config .. ".txt")
+                                    update_config_list()
+                                end
+                            end
+                        }}})
+                        config_section:ButtonHolder({
+                            Buttons = {{"Load", function()
+                                local selected_config = pointers["settings/configuration/list"]:get()[1][1]
+                                if selected_config then
+                                    window:LoadConfig(readfile("Linux/configs/" .. selected_config .. ".txt"))
+                                end
+                            end}, {"Save", function()
+                                local selected_config = pointers["settings/configuration/list"]:get()[1][1]
+                                if selected_config then
+                                    writefile("Linux/configs/" .. selected_config .. ".txt", window:GetConfig())
+                                end
+                            end
+                        }}})
+                        m_thread.spawn_loop(3, update_config_list)
+                    end
 
     local menu_section = settings_page:Section({name = "Menu"}) do
         local function gs(a)
@@ -931,306 +945,267 @@ local misc_toggle = misc_main:Toggle({name = "Symbols", Default = false, pointer
             }
         )
     end
-local load_section = settings_page:Section({name = "Load Menu", side = "Right"})  
+local load_section = settings_page:Section({name = "Load Menu", side = "Right"})
+
 load_section:Toggle({name = "Show Menu"})
+
 load_section:Toggle({name = "Auto Load Config"})
 
-    local themes_section = settings_page:Section({name = "Themes", side = "Left"}) do
-local extra_section = settings_page:Section({name = "Extra", side = "Left",})
+local themes_section = settings_page:Section({name = "Themes", side = "Left"})
+
+local extra_section = settings_page:Section({name = "Extra", side = "Left"})
+
 extra_section:Toggle({name = "Custom Menu Name"})
 
 extra_section:Textbox({name = "Custom Name"})
 
-
-
-
-
-
-        
-        themes_section:Dropdown({
-                Name = "Theme",
-                Options = {"Default", "ZeeBot", "Abyss", "Spotify", "Zeebot v2", "Solix", "nomercy.rip", "Abyss V2", "Anorix", "Octel", "LegitSneeze", "AimWare", "x15","Gamesense", "Mint", "Ubuntu", "BitchBot", "BubbleGum", "Slime"},
-                Default = "Abyss",
-                Pointer = "themes/xd/",
-                callback = function(callback)
-                    if callback == "Default" then
-                        library:UpdateColor("Accent", Color3.fromRGB(189, 182, 240))
-                        library:UpdateColor("lightcontrast", Color3.fromRGB(30, 30, 30))
-                        library:UpdateColor("darkcontrast", Color3.fromRGB(25, 25, 25))
-                        library:UpdateColor("outline", Color3.fromRGB(0, 0, 0))
-                        library:UpdateColor("inline", Color3.fromRGB(50, 50, 50))
-                    
-                    elseif callback == "Spotify" then
-                        library:UpdateColor("Accent", Color3.fromRGB(103, 212, 91))
-                        library:UpdateColor("lightcontrast", Color3.fromRGB(30, 30, 30))
-                        library:UpdateColor("darkcontrast", Color3.fromRGB(25, 25, 25))
-                        library:UpdateColor("outline", Color3.fromRGB(0, 0, 0))
-                        library:UpdateColor("inline", Color3.fromRGB(46, 46, 46))
-                    
-                    elseif callback == "AimWare" then
-                        library:UpdateColor("Accent", Color3.fromRGB(250, 47, 47))
-                        library:UpdateColor("lightcontrast", Color3.fromRGB(41, 40, 40))
-                        library:UpdateColor("darkcontrast", Color3.fromRGB(38, 38, 38))
-                        library:UpdateColor("outline", Color3.fromRGB(0, 0, 0))
-                        library:UpdateColor("inline", Color3.fromRGB(46, 46, 46))
-                   
-                    elseif callback == "nomercy.rip" then
-                        library:UpdateColor("Accent", Color3.fromRGB(242, 150, 92))
-                        library:UpdateColor("lightcontrast", Color3.fromRGB(22, 12, 46))
-                        library:UpdateColor("darkcontrast", Color3.fromRGB(17, 8, 31))
-                        library:UpdateColor("outline", Color3.fromRGB(0, 0, 0))
-                        library:UpdateColor("inline", Color3.fromRGB(46, 46, 46))
-                   
-                    elseif callback == "Abyss" then
-                        library:UpdateColor("Accent", Color3.fromRGB(81, 72, 115))
-                        library:UpdateColor("lightcontrast", Color3.fromRGB(41, 41, 41))
-                        library:UpdateColor("darkcontrast", Color3.fromRGB(31, 30, 30))
-                        library:UpdateColor("outline", Color3.fromRGB(0, 0, 0))
-                        library:UpdateColor("inline", Color3.fromRGB(50, 50, 50))
-                        
-                        elseif callback == "Abyss V2" then
-                        library:UpdateColor("Accent", Color3.fromRGB(161, 144, 219))
-                        library:UpdateColor("lightcontrast", Color3.fromRGB(27, 27, 27))
-                        library:UpdateColor("darkcontrast", Color3.fromRGB(18, 18, 18))
-                        library:UpdateColor("outline", Color3.fromRGB(0, 0, 0))
-                        library:UpdateColor("inline", Color3.fromRGB(50, 50, 50))
-                        
-                        elseif callback == "Gamesense" then
-                        library:UpdateColor("Accent", Color3.fromRGB(163, 248, 105))
-                        library:UpdateColor("lightcontrast", Color3.fromRGB(25, 25, 25))
-                        library:UpdateColor("darkcontrast", Color3.fromRGB(16, 16, 16))
-                        library:UpdateColor("outline", Color3.fromRGB(0, 0, 0))
-                        library:UpdateColor("inline", Color3.fromRGB(50, 50, 50))
-                   
-                    elseif callback == "Mint" then
-                        library:UpdateColor("Accent", Color3.fromRGB(0, 255, 139))
-                        library:UpdateColor("lightcontrast", Color3.fromRGB(20, 20, 20))
-                        library:UpdateColor("darkcontrast", Color3.fromRGB(20, 20, 20))
-                        library:UpdateColor("outline", Color3.fromRGB(0, 0, 0))
-                        library:UpdateColor("inline", Color3.fromRGB(50, 50, 50))
-                    
-                    elseif callback == "Ubuntu" then
-                        library:UpdateColor("Accent", Color3.fromRGB(226, 88, 30))
-                        library:UpdateColor("lightcontrast", Color3.fromRGB(62,62,62))
-                        library:UpdateColor("darkcontrast", Color3.fromRGB(50, 50, 50))
-                        library:UpdateColor("outline", Color3.fromRGB(0, 0, 0))
-                        library:UpdateColor("inline", Color3.fromRGB(50, 50, 50))
-                    
-                    elseif callback == "BitchBot" then
-                        library:UpdateColor("Accent", Color3.fromRGB(126,72,163))
-                        library:UpdateColor("lightcontrast", Color3.fromRGB(62,62,62))
-                        library:UpdateColor("darkcontrast", Color3.fromRGB(50, 50, 50))
-                        library:UpdateColor("outline", Color3.fromRGB(0, 0, 0))
-                        library:UpdateColor("inline", Color3.fromRGB(50, 50, 50))
-                        
-                    elseif callback == "Anorix" then
-                        library:UpdateColor("Accent", Color3.fromRGB(105,156,164))
-                        library:UpdateColor("lightcontrast", Color3.fromRGB(51,51,51))
-                        library:UpdateColor("darkcontrast", Color3.fromRGB(41,41,41))
-                        library:UpdateColor("outline", Color3.fromRGB(37, 37, 37))
-                        library:UpdateColor("inline", Color3.fromRGB(39, 39, 39))
-                        
-                        
-                         elseif callback == "Zeebot v2" then
-                        library:UpdateColor("Accent", Color3.fromRGB(117,96,175))
-                        library:UpdateColor("lightcontrast", Color3.fromRGB(51,51,51))
-                        library:UpdateColor("darkcontrast", Color3.fromRGB(41,41,41))
-                        library:UpdateColor("outline", Color3.fromRGB(37, 37, 37))
-                        library:UpdateColor("inline", Color3.fromRGB(39, 39, 39))
-                        
-                        
-                        
-                        
-                    elseif callback == "BubbleGum" then
-                        library:UpdateColor("Accent", Color3.fromRGB(169, 83, 245))
-                        library:UpdateColor("lightcontrast", Color3.fromRGB(22, 12, 46))
-                        library:UpdateColor("darkcontrast", Color3.fromRGB(17, 8, 31))
-                        library:UpdateColor("outline", Color3.fromRGB(0, 0, 0))
-                        library:UpdateColor("inline", Color3.fromRGB(46, 46, 46))
-                    
-                    elseif callback == "Slime" then
-                        library:UpdateColor("Accent", Color3.fromRGB(64, 247, 141))
-                        library:UpdateColor("lightcontrast", Color3.fromRGB(22, 12, 46))
-                        library:UpdateColor("darkcontrast", Color3.fromRGB(17, 8, 31))
-                        library:UpdateColor("outline", Color3.fromRGB(0, 0, 0))
-                        library:UpdateColor("inline", Color3.fromRGB(46, 46, 46))
-                    
-                    elseif callback == "Octel" then
-                        library:UpdateColor("Accent", Color3.fromRGB(255, 201, 254))
-                        library:UpdateColor("lightcontrast", Color3.fromRGB(32, 32, 32))
-                        library:UpdateColor("darkcontrast", Color3.fromRGB(25, 25, 25))
-                        library:UpdateColor("outline", Color3.fromRGB(0, 0, 0))
-                        library:UpdateColor("inline", Color3.fromRGB(30, 28, 30))
-     
-                    elseif callback == "LegitSneeze" then
-                        library:UpdateColor("Accent", Color3.fromRGB(135,206,250))
-                        library:UpdateColor("lightcontrast", Color3.fromRGB(43,41,48))
-                        library:UpdateColor("darkcontrast", Color3.fromRGB(44,41,48))
-                        library:UpdateColor("outline", Color3.fromRGB(0, 0, 0))
-                        library:UpdateColor("inline", Color3.fromRGB(50,50,50))
-     
-                    elseif callback == "x15" then
-                        library:UpdateColor("Accent", Color3.fromRGB(92,57,152))
-                        library:UpdateColor("lightcontrast", Color3.fromRGB(32, 32, 32))
-                        library:UpdateColor("darkcontrast", Color3.fromRGB(25, 25, 25))
-                        library:UpdateColor("outline", Color3.fromRGB(0, 0, 0))
-                        library:UpdateColor("inline", Color3.fromRGB(30, 28, 30))
-     
-                    elseif callback == "ZeeBot" then
-                        library:UpdateColor("Accent", Color3.fromRGB(59,84,154))
-                        library:UpdateColor("lightcontrast", Color3.fromRGB(32, 33, 32))
-                        library:UpdateColor("darkcontrast", Color3.fromRGB(25, 26, 25))
-                        library:UpdateColor("outline", Color3.fromRGB(0, 0, 0))
-                        library:UpdateColor("inline", Color3.fromRGB(30, 31, 30))
-     
-                    elseif callback == "Solix" then
-                        library:UpdateColor("Accent", Color3.fromRGB(120, 93, 166))
-                        library:UpdateColor("lightcontrast", Color3.fromRGB(33,33,33))
-                        library:UpdateColor("darkcontrast", Color3.fromRGB(24,24,24))
-                        library:UpdateColor("outline", Color3.fromRGB(0, 0, 0))
-                        library:UpdateColor("inline", Color3.fromRGB(30, 29, 30)) end end})
-        themes_section:Dropdown({
-                Name = "Accent Effects",
-                Options = {"Rainbow", "Fade", "Disguard Fade", "Disguard Rainbow"},
-                Default = "None",
-                Pointer = "themes/xd/",
-                callback = function(callback)
-                    if callback == "Rainbow" then
-                        if callback then
-
-                            ching = game:GetService("RunService").Heartbeat:Connect(function()chings:Disconnect()
-                                        library:UpdateColor("Accent", Color3.fromHSV(tick() % 5 / 5, 1, 1))
-                                    end)
-                        else
-                            if ching then
-                                ching:Disconnect()
-                            end
-                        end
-
-                    elseif callback == "Disguard Rainbow" then
-                        ching:Disconnect()
-
-
-                    elseif callback == "Disguard Fade" then
-
-                        chings:Disconnect()
-
-                    elseif callback == "Fade" then
-                        if callback then
-
-                            chings =
-                                game:GetService("RunService").Heartbeat:Connect(
-                                    function()
-                                        ching:Disconnect()
-                                        local r = (math.sin(workspace.DistributedGameTime/2)/2)+0.5
-                                        local g = (math.sin(workspace.DistributedGameTime)/2)+0.5
-                                        local b = (math.sin(workspace.DistributedGameTime*1.5)/2)+0.5
-                                        local color = Color3.new(r, g, b)
-                                        library:UpdateColor("Accent", color)
-                                    end
-                                )
-                        else
-                            if chings then
-                                chings:Disconnect()
-                            end
-                        end
-
-                    end
+themes_section:Dropdown({
+    Name = "Theme",
+    Options = {"Default", "ZeeBot", "Abyss", "Spotify", "Zeebot v2", "Solix", "nomercy.rip", "Abyss V2", "Anorix", "Octel", "LegitSneeze", "AimWare", "x15","Gamesense", "Mint", "Ubuntu", "BitchBot", "BubbleGum", "Slime"},
+    Default = "Abyss",
+    Pointer = "themes/xd/",
+    callback = function(callback)
+        if callback == "Default" then
+            library:UpdateColor("Accent", Color3.fromRGB(189, 182, 240))
+            library:UpdateColor("lightcontrast", Color3.fromRGB(30, 30, 30))
+            library:UpdateColor("darkcontrast", Color3.fromRGB(25, 25, 25))
+            library:UpdateColor("outline", Color3.fromRGB(0, 0, 0))
+            library:UpdateColor("inline", Color3.fromRGB(50, 50, 50))
+        elseif callback == "Spotify" then
+            library:UpdateColor("Accent", Color3.fromRGB(103, 212, 91))
+            library:UpdateColor("lightcontrast", Color3.fromRGB(30, 30, 30))
+            library:UpdateColor("darkcontrast", Color3.fromRGB(25, 25, 25))
+            library:UpdateColor("outline", Color3.fromRGB(0, 0, 0))
+            library:UpdateColor("inline", Color3.fromRGB(46, 46, 46))
+        elseif callback == "AimWare" then
+            library:UpdateColor("Accent", Color3.fromRGB(250, 47, 47))
+            library:UpdateColor("lightcontrast", Color3.fromRGB(41, 40, 40))
+            library:UpdateColor("darkcontrast", Color3.fromRGB(38, 38, 38))
+            library:UpdateColor("outline", Color3.fromRGB(0, 0, 0))
+            library:UpdateColor("inline", Color3.fromRGB(46, 46, 46))
+        elseif callback == "nomercy.rip" then
+            library:UpdateColor("Accent", Color3.fromRGB(242, 150, 92))
+            library:UpdateColor("lightcontrast", Color3.fromRGB(22, 12, 46))
+            library:UpdateColor("darkcontrast", Color3.fromRGB(17, 8, 31))
+            library:UpdateColor("outline", Color3.fromRGB(0, 0, 0))
+            library:UpdateColor("inline", Color3.fromRGB(46, 46, 46))
+        elseif callback == "Abyss" then
+            library:UpdateColor("Accent", Color3.fromRGB(81, 72, 115))
+            library:UpdateColor("lightcontrast", Color3.fromRGB(41, 41, 41))
+            library:UpdateColor("darkcontrast", Color3.fromRGB(31, 30, 30))
+            library:UpdateColor("outline", Color3.fromRGB(0, 0, 0))
+            library:UpdateColor("inline", Color3.fromRGB(50, 50, 50)) 
+        elseif callback == "Abyss V2" then
+            library:UpdateColor("Accent", Color3.fromRGB(161, 144, 219))
+            library:UpdateColor("lightcontrast", Color3.fromRGB(27, 27, 27))
+            library:UpdateColor("darkcontrast", Color3.fromRGB(18, 18, 18))
+            library:UpdateColor("outline", Color3.fromRGB(0, 0, 0))
+            library:UpdateColor("inline", Color3.fromRGB(50, 50, 50))
+        elseif callback == "Gamesense" then
+            library:UpdateColor("Accent", Color3.fromRGB(163, 248, 105))
+            library:UpdateColor("lightcontrast", Color3.fromRGB(25, 25, 25))
+            library:UpdateColor("darkcontrast", Color3.fromRGB(16, 16, 16))
+            library:UpdateColor("outline", Color3.fromRGB(0, 0, 0))
+            library:UpdateColor("inline", Color3.fromRGB(50, 50, 50))
+        elseif callback == "Mint" then
+            library:UpdateColor("Accent", Color3.fromRGB(0, 255, 139))
+            library:UpdateColor("lightcontrast", Color3.fromRGB(20, 20, 20))
+            library:UpdateColor("darkcontrast", Color3.fromRGB(20, 20, 20))
+            library:UpdateColor("outline", Color3.fromRGB(0, 0, 0))
+            library:UpdateColor("inline", Color3.fromRGB(50, 50, 50))
+        elseif callback == "Ubuntu" then
+            library:UpdateColor("Accent", Color3.fromRGB(226, 88, 30))
+            library:UpdateColor("lightcontrast", Color3.fromRGB(62,62,62))
+            library:UpdateColor("darkcontrast", Color3.fromRGB(50, 50, 50))
+            library:UpdateColor("outline", Color3.fromRGB(0, 0, 0))
+            library:UpdateColor("inline", Color3.fromRGB(50, 50, 50))            
+        elseif callback == "BitchBot" then
+            library:UpdateColor("Accent", Color3.fromRGB(126,72,163))
+            library:UpdateColor("lightcontrast", Color3.fromRGB(62,62,62))
+            library:UpdateColor("darkcontrast", Color3.fromRGB(50, 50, 50))
+            library:UpdateColor("outline", Color3.fromRGB(0, 0, 0))
+            library:UpdateColor("inline", Color3.fromRGB(50, 50, 50))
+        elseif callback == "Anorix" then
+            library:UpdateColor("Accent", Color3.fromRGB(105,156,164))
+            library:UpdateColor("lightcontrast", Color3.fromRGB(51,51,51))
+            library:UpdateColor("darkcontrast", Color3.fromRGB(41,41,41))
+            library:UpdateColor("outline", Color3.fromRGB(37, 37, 37))
+            library:UpdateColor("inline", Color3.fromRGB(39, 39, 39))
+        elseif callback == "Zeebot v2" then
+            library:UpdateColor("Accent", Color3.fromRGB(117,96,175))
+            library:UpdateColor("lightcontrast", Color3.fromRGB(51,51,51))
+            library:UpdateColor("darkcontrast", Color3.fromRGB(41,41,41))
+            library:UpdateColor("outline", Color3.fromRGB(37, 37, 37))
+            library:UpdateColor("inline", Color3.fromRGB(39, 39, 39))
+        elseif callback == "BubbleGum" then
+            library:UpdateColor("Accent", Color3.fromRGB(169, 83, 245))
+            library:UpdateColor("lightcontrast", Color3.fromRGB(22, 12, 46))
+            library:UpdateColor("darkcontrast", Color3.fromRGB(17, 8, 31))
+            library:UpdateColor("outline", Color3.fromRGB(0, 0, 0))
+            library:UpdateColor("inline", Color3.fromRGB(46, 46, 46))
+        elseif callback == "Slime" then
+            library:UpdateColor("Accent", Color3.fromRGB(64, 247, 141))
+            library:UpdateColor("lightcontrast", Color3.fromRGB(22, 12, 46))
+            library:UpdateColor("darkcontrast", Color3.fromRGB(17, 8, 31))
+            library:UpdateColor("outline", Color3.fromRGB(0, 0, 0))
+            library:UpdateColor("inline", Color3.fromRGB(46, 46, 46))
+        elseif callback == "Octel" then
+            library:UpdateColor("Accent", Color3.fromRGB(255, 201, 254))
+            library:UpdateColor("lightcontrast", Color3.fromRGB(32, 32, 32))
+            library:UpdateColor("darkcontrast", Color3.fromRGB(25, 25, 25))
+            library:UpdateColor("outline", Color3.fromRGB(0, 0, 0))
+            library:UpdateColor("inline", Color3.fromRGB(30, 28, 30))
+        elseif callback == "LegitSneeze" then
+            library:UpdateColor("Accent", Color3.fromRGB(135,206,250))
+            library:UpdateColor("lightcontrast", Color3.fromRGB(43,41,48))
+            library:UpdateColor("darkcontrast", Color3.fromRGB(44,41,48))
+            library:UpdateColor("outline", Color3.fromRGB(0, 0, 0))
+            library:UpdateColor("inline", Color3.fromRGB(50,50,50))
+        elseif callback == "x15" then
+            library:UpdateColor("Accent", Color3.fromRGB(92,57,152))
+            library:UpdateColor("lightcontrast", Color3.fromRGB(32, 32, 32))
+            library:UpdateColor("darkcontrast", Color3.fromRGB(25, 25, 25))
+            library:UpdateColor("outline", Color3.fromRGB(0, 0, 0))
+            library:UpdateColor("inline", Color3.fromRGB(30, 28, 30))
+        elseif callback == "ZeeBot" then
+            library:UpdateColor("Accent", Color3.fromRGB(59,84,154))
+            library:UpdateColor("lightcontrast", Color3.fromRGB(32, 33, 32))
+            library:UpdateColor("darkcontrast", Color3.fromRGB(25, 26, 25))
+            library:UpdateColor("outline", Color3.fromRGB(0, 0, 0))
+            library:UpdateColor("inline", Color3.fromRGB(30, 31, 30))
+        elseif callback == "Solix" then
+            library:UpdateColor("Accent", Color3.fromRGB(120, 93, 166))
+            library:UpdateColor("lightcontrast", Color3.fromRGB(33,33,33))
+            library:UpdateColor("darkcontrast", Color3.fromRGB(24,24,24))
+            library:UpdateColor("outline", Color3.fromRGB(0, 0, 0))
+            library:UpdateColor("inline", Color3.fromRGB(30, 29, 30))
+        end
+    end
+})
+themes_section:Dropdown({
+    Name = "Accent Effects",
+    Options = {"Rainbow", "Fade", "Disguard Fade", "Disguard Rainbow"},
+    Default = "None",
+    Pointer = "themes/xd/",
+    callback = function(callback)
+        if callback == "Rainbow" then
+            if callback then
+                ching = game:GetService("RunService").Heartbeat:Connect(function()
+                    chings:Disconnect()
+                    library:UpdateColor("Accent", Color3.fromHSV(tick() % 5 / 5, 1, 1))
+                end)
+            else
+                if ching then
+                    ching:Disconnect()
                 end
-            }
-        )
-        themes_section:Slider(
-            {
-                Name = "Switch Speed",
-                Minimum = 0,
-                Maximum = 10,
-                Default = 1,
-                Decimals = .1,
-                suffix = "",
-                Pointer = "reload delay",
-                callback = function(a)
+            end
+        elseif callback == "Disguard Rainbow" then
+            ching:Disconnect()
+        elseif callback == "Disguard Fade" then
+            chings:Disconnect()
+        elseif callback == "Fade" then
+            if callback then
+                chings = game:GetService("RunService").Heartbeat:Connect(function()
+                    ching:Disconnect()
+                    local r = (math.sin(workspace.DistributedGameTime/2)/2)+0.5
+                    local g = (math.sin(workspace.DistributedGameTime)/2)+0.5
+                    local b = (math.sin(workspace.DistributedGameTime*1.5)/2)+0.5
+                    local color = Color3.new(r, g, b)
+                    library:UpdateColor("Accent", color)
+                end)
+            else
+                if chings then
+                    chings:Disconnect()
                 end
-            }
-        )
+            end
+        end
+    end
+})
 
-        themes_section:Colorpicker(
-            {
-                pointer = "themes/menu/accent",
-                name = "Accent",
-                default = Color3.fromRGB(100, 61, 200),
-                callback = function(p_state)
-                    library:UpdateColor("Accent", p_state)
-                end
-            }
-        )
-        themes_section:Colorpicker(
-            {
-                pointer = "settings/menu/accent",
-                name = "Light Contrast",
-                default = Color3.fromRGB(30, 30, 30),
-                callback = function(p_state)
-                    library:UpdateColor("lightcontrast", p_state)
-                end
-            }
-        )
-        themes_section:Colorpicker(
-            {
-                pointer = "settings/menu/accent",
-                name = "Dark Constrast",
-                default = Color3.fromRGB(25, 25, 25),
-                callback = function(p_state)
-                    library:UpdateColor("darkcontrast", p_state)
-                end
-            }
-        )
-        themes_section:Colorpicker(
-            {
-                pointer = "settings/menu/accent",
-                name = "Outline",
-                default = Color3.fromRGB(0, 0, 0),
-                callback = function(p_state)
-                    library:UpdateColor("outline", p_state)
-                end
-            }
-        )
-        themes_section:Colorpicker(
-            {
-                pointer = "settings/menu/accent",
-                name = "Inline",
-                default = Color3.fromRGB(50, 50, 50),
-                callback = function(p_state)
-                    library:UpdateColor("inline", p_state)
-                end
-            }
-        )
-        themes_section:Colorpicker(
-            {
-                pointer = "settings/menu/accent",
-                name = "Text Color",
-                default = Color3.fromRGB(255, 255, 255),
-                callback = function(p_state)
-                    library:UpdateColor("textcolor", p_state)
-                end
-            }
-        )
-        
-    
-        
-        
-        
-        themes_section:Colorpicker(
-            {
-                pointer = "settings/menu/accent",
-                name = "Text Border",
-                default = Color3.fromRGB(0, 0, 0),
-                callback = function(p_state)
-                    library:UpdateColor("textborder", p_state)
-                end})
-        themes_section:Colorpicker({
-                pointer = "settings/menu/accent",
-                name = "Cursor Outline",
-                default = Color3.fromRGB(255, 255, 255),
-                callback = function(p_state)
-                    library:UpdateColor("cursoroutline", p_state)
-                end})end end window.uibind = Enum.KeyCode.V window:Initialize() end
+themes_section:Slider({
+    Name = "Switch Speed",
+    Minimum = 0,
+    Maximum = 10,
+    Default = 1,
+    Decimals = .1,
+    suffix = "",
+    Pointer = "reload delay",
+    callback = function(a)
+        --hello
+    end
+})
+
+themes_section:Colorpicker({
+    pointer = "themes/menu/accent",
+    name = "Accent",
+    default = Color3.fromRGB(100, 61, 200),
+    callback = function(p_state)
+        library:UpdateColor("Accent", p_state)
+    end
+})
+
+themes_section:Colorpicker({
+    pointer = "settings/menu/accent",
+    name = "Light Contrast",
+    default = Color3.fromRGB(30, 30, 30),
+    callback = function(p_state)
+        library:UpdateColor("lightcontrast", p_state)
+    end
+})
+
+themes_section:Colorpicker({
+    pointer = "settings/menu/accent",
+    name = "Dark Constrast",
+    default = Color3.fromRGB(25, 25, 25),
+    callback = function(p_state)
+        library:UpdateColor("darkcontrast", p_state)
+    end
+})
+
+themes_section:Colorpicker({
+    pointer = "settings/menu/accent",
+    name = "Outline",
+    default = Color3.fromRGB(0, 0, 0),
+    callback = function(p_state)
+        library:UpdateColor("outline", p_state)
+    end
+})
+
+themes_section:Colorpicker({
+    pointer = "settings/menu/accent",
+    name = "Inline",
+    default = Color3.fromRGB(50, 50, 50),
+    callback = function(p_state)
+        library:UpdateColor("inline", p_state)
+    end
+})
+
+themes_section:Colorpicker({
+    pointer = "settings/menu/accent",
+    name = "Text Color",
+    default = Color3.fromRGB(255, 255, 255),
+    callback = function(p_state)
+        library:UpdateColor("textcolor", p_state)
+    end
+})
+
+themes_section:Colorpicker({
+    pointer = "settings/menu/accent",
+    name = "Text Border",
+    default = Color3.fromRGB(0, 0, 0),
+    callback = function(p_state)
+        library:UpdateColor("textborder", p_state)
+    end
+})
+
+themes_section:Colorpicker({
+    pointer = "settings/menu/accent",
+    name = "Cursor Outline",
+    default = Color3.fromRGB(255, 255, 255),
+    callback = function(p_state)
+        library:UpdateColor("cursoroutline", p_state)
+    end
+})
+
+end end window.uibind = Enum.KeyCode.V window:Initialize() end
                 
