@@ -9,8 +9,7 @@ getgenv().Ordium = {
         ChanceData = {UseChance = false, Chance = 100},
         FOVData = {Radius = 80, Visibility = true, Filled = false},
 
-        AimingData = {CheckKnocked = true, CheckGrabbed = true,
-        CheckWalls = true},
+        AimingData = {CheckKnocked = true, CheckGrabbed = true, CheckWalls = true},
 
     },
     Tracing = {
@@ -127,8 +126,8 @@ Ordium.functions.returnClosestPart = function(Character)
             end
         end
     end
-    if getgenv().Ordium.SilentAim.AimingData.CheckWalls and Ordium.functions.wallCheck(data.part, data.part.Parent) then
-        retur7n data.part
+    if Ordium.functions.wallCheck(data.part, data.part.Parent) then
+        return data.part
     end
 end
 
@@ -150,7 +149,7 @@ Ordium.functions.returnClosestPlayer = function (amount)
                     local Magnitude = (Vector2New(Mouse.X, Mouse.Y) - Vector2New(viewPoint.X, viewPoint.Y)).Magnitude
 
                     if Circle.Radius > Magnitude and Magnitude < closestDistance and
-                    Ordium.functions.wallCheck(player.Character.Head.Position,{client, player.Character}) 
+                    Ordium.functions.wallCheck(player.Character.Head, player.Character) 
                     then
                         closestDistance = Magnitude
                         closestPlayer = player
