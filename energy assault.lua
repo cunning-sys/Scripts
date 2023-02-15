@@ -2,10 +2,14 @@
 local players = game:GetService("Players");
 local localPlayer = players.LocalPlayer;
 local rotation = CFrame.Angles(0, math.pi*0.5, 0);
+local prediction = 0.155;
 
 -- globals
 local fov = fov or 180;
 local hitpart = hitpart or "Head";
+
+local circle = Drawing.new('Circle')
+
 
 -- temporaries
 local closest;
@@ -25,7 +29,11 @@ old = hookmetamethod(workspace, "__newindex", function(self, index, value)
         for _, player in next, players:GetPlayers() do
             character, team = player.Character, player.Team;
             if character and (not team or team ~= localPlayer.Team) then
-                cframe = CFrame.new(origin, character[hitpart].Position) * rotation;
+                if prediction then
+                    cframe = CFrame.new(origin, character[hitpart].Position) * rotation * prediction;
+                else
+                    cframe = CFrame.new(origin, character[hitpart].Position) * rotation;
+                end
                 angle = math.deg(math.acos(direction:Dot(cframe.LookVector)));
                 if angle < closest then
                     value = cframe;
