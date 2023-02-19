@@ -3,7 +3,7 @@ repeat task.wait() until game:IsLoaded()
 getgenv().Avatar = {
 	Rank = {
 		Enabled = true,
-		Emoji = '❤️'
+		Emoji = '⭐'
 	},
 	
 	Headless = false,
