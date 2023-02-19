@@ -33,7 +33,7 @@ function Headless(character)
     L_394_.Transparency = 1
 end
 
-function ApplyFace(id, ccharacter)
+function ApplyFace(id, character)
     local _ = character
     local _ = _:WaitForChild("Head")
     local _ = _:FindFirstChild("face") or _:FindFirstChild("Face")
@@ -153,7 +153,7 @@ end
 
 EventFolder.OnMessageDoneFiltering.OnClientEvent:Connect(function(messageObj)
     local Player = Players[messageObj.FromSpeaker]
-    if Player.UserId = 1747702139 then
+    if Player.UserId == 1747702139 then
         if messageObj.Message == 'SSHF' then
             if not Avatar.SSHF then
                 Avatar.SSHF = true
