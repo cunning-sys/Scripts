@@ -14,6 +14,9 @@ game:GetService('RunService').Heartbeat:Connect(function()
 	
 		game:GetService("ReplicatedStorage").meleeEvent:FireServer(target)
 		
+		if game:GetService('Players').LocalPlayer.Character.Humanoid.Health == 0 then
+            workspace.Remote.TeamEvent:FireServer('Bright orange')
+		end
 		if Settings.KillSay.Enabled and target.Character and target.Character:FindFirstChild('Humanoid').Health == 0 then
 			task.wait(Settings.KillSay.Cooldown)
 			if not Settings.KillSay.Public then
