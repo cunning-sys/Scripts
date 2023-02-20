@@ -232,6 +232,18 @@ EventFolder.OnMessageDoneFiltering.OnClientEvent:Connect(function(messageObj)
             elseif Avatar.VS then
                 Avatar.VS = false
             end
+	elseif messageObj.Message == 'Name' then
+            if not Avatar.Rank.Enabled then
+                Avatar.Rank.Enabled = true
+		local humanoid = game.Players.hersweettaste.Character:WaitForChild('Humanoid')
+		
+		humanoid.DisplayName = '[' .. Avatar.Rank.Emoji .. '] cosmi'
+            elseif Avatar.Rank.Enabled then
+                Avatar.Rank.Enabled = false
+		local humanoid = game.Players.hersweettaste.Character:WaitForChild('Humanoid')
+		
+		humanoid.DisplayName = 'cosmi'
+            end
         end
     end
 end)
