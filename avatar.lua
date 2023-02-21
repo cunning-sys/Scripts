@@ -10,12 +10,14 @@ getgenv().Avatar = {
 	SSHF = true,
 	BIKOTN = false,
 	BH = false,
+	RIH = false,
     FIERY = false,
     FROZEN = false,
     POISON = false,
     BQOTN = false,
     SKOTN = false,
     PQOTN = false,
+    AKOTN = false,
     RVS = false,
     VS = false
 }
@@ -139,6 +141,12 @@ function onCharacterAdded(character)
     end
     if Avatar.VS then
         ApplyHat(1125510, character)
+    end
+    if Avatar.AKOTN then
+	ApplyHat(439946101, character)
+    end
+    if Avatar.RIH then
+	ApplyHat(1360068971, character)
     end
 end
 
