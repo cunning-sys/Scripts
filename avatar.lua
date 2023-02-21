@@ -10,14 +10,14 @@ getgenv().Avatar = {
 	SSHF = true,
 	BIKOTN = false,
 	BH = false,
-	RIH = false,
+	RIH = true,
     FIERY = false,
     FROZEN = false,
     POISON = false,
     BQOTN = false,
     SKOTN = false,
     PQOTN = false,
-    AKOTN = false,
+    AKOTN = true,
     RVS = false,
     VS = false
 }
