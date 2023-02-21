@@ -24,7 +24,6 @@ function Aiming.Check()
     return true
 end
 
-if Resolver then
     local __index
     __index = hookmetamethod(game, "__index", function(t, k)
         if (t:IsA("Mouse") and (k == "Hit" or k == "Target") and Aiming.Check()) then
@@ -37,20 +36,6 @@ if Resolver then
         end
         return __index(t, k)
     end)
-else
-    local __index
-    __index = hookmetamethod(game, "__index", function(t, k)
-        if (t:IsA("Mouse") and (k == "Hit" or k == "Target") and Aiming.Check()) then
-            local SelectedPart = Aiming.SelectedPart
-            if (Aiming.SilentAim and (k == "Hit" or k == "Target")) then
-                local Hit = SelectedPart.CFrame + (SelectedPart.Velocity * Aiming.Prediction)
-            
-                return (k == "Hit" and Hit or SelectedPart)
-            end
-        end
-        return __index(t, k)
-    end)
-end
 
 local library = loadstring(game:HttpGet("https://raw.githubusercontent.com/vozoid/ui-libraries/main/drawing/void/source.lua"))()
 
