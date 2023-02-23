@@ -37,7 +37,7 @@ function CHEAT_CLIENT:get_target()
             
             local distance = (Vector2.new(position.X, position.Y - game.GuiService:GetGuiInset(game.GuiService).Y) - Vector2.new(CHEAT_CLIENT.mouse.X, CHEAT_CLIENT.mouse.Y)).Magnitude
                 
-            if distance > maximum_distance then continue else return nil end
+            if distance > maximum_distance then continue end
                 
             current_target = v
             maximum_distance = distance
@@ -167,6 +167,23 @@ esp.teamSettings.enemy.enabled = true
 esp.teamSettings.enemy.box = true
 esp.teamSettings.enemy.healthBar = true
 esp.teamSettings.enemy.healthText = true
+esp.teamSettings.enemy.distance = true
 esp.teamSettings.enemy.name = true
+
+for i, exit in pairs(game:GetService("Workspace").NoCollision.ExitLocations:GetChildren()) do
+	if exit.Name == 'Exit' then
+		local object = esp.AddInstance(exit, {
+			enabled = true,
+			text = "{name} {distance}", -- Placeholders: {name}, {distance}, {position}
+			textColor = { Color3.new(1,1,1), 1 },
+			textOutline = true,
+			textOutlineColor = Color3.new(),
+			textSize = 13,
+			textFont = 2,
+			limitDistance = false,
+			maxDistance = 150
+		})
+	end
+end
 
 esp.Load()
