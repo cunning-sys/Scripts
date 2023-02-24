@@ -18,6 +18,14 @@ getgenv().Ordium = {
         Prediction = 8,
         AimPart = "HumanoidRootPart",
         TracingOptions = {AimingType = "Closest Part",  Smoothness = 0.11}
+    },
+    Resolver = {
+        Enabled = true,
+        Type = '', -- Always, AutoResolve, Y-Axis
+        AutoResolver = {
+            Positive = 80,
+            Negative = -40
+        }
     }
 }
 
@@ -203,6 +211,20 @@ Ordium.functions.aimingCheck = function (player)
     return false
 end
 
+Ordium.functions.unlockOnDeath = function (player)
+
+end
+
+
+Ordium.functions.autoResolve = function (player, pos, neg)
+    if player and getgenv().Ordium.Resolver.Enabled and getgenv().Ordium.Resolver.Type == 'AutoResolve' then
+        local velo = player.Character.HumanoidRootPart.Velocity
+        if (velo.Magnitude > neg or velo.Magnitude < pos) then
+            velo = Vector3.new(0.36, 0.21, 0.34) * 2
+        end
+    end
+end
+
 local lastRender = 0
 local interpolation = 0.01
 
@@ -223,6 +245,7 @@ task.spawn(function ()
     while task.wait() do
         if Targetting then
             Ordium.functions.setAimingType(Targetting, getgenv().Ordium.SilentAim.AimingType)
+            Ordium.functions.autoResolve(Targetting, getgenv().Ordium.autoResolve.Positive, getgenv().Ordium.autoResolve.Negative)
         end
         Ordium.functions.update_FOVs()
     end
