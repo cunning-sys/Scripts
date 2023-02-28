@@ -134,7 +134,7 @@ Ordium.functions.returnClosestPart = function(Character)
             end
         end
     end
-    if Ordium.functions.wallCheck(data.part, data.part.Parent) then
+    if Ordium.functions.wallCheck(data.part, Character) then
         return data.part
     end
 end
@@ -215,12 +215,15 @@ Ordium.functions.unlockOnDeath = function (player)
 
 end
 
+Ordium.functions.applyVelocity = function (player)
+    player.Character.HumanoidRootPart.Velocity = Vector3.new(0.36, 0.21, 0.34)
+end
 
 Ordium.functions.autoResolve = function (player, pos, neg)
     if player and getgenv().Ordium.Resolver.Enabled and getgenv().Ordium.Resolver.Type == 'AutoResolve' then
         local velo = player.Character.HumanoidRootPart.Velocity
         if (velo.Magnitude > neg or velo.Magnitude < pos) then
-            velo = Vector3.new(0.36, 0.21, 0.34) * 2
+            applyVelocity(player)
         end
     end
 end
@@ -234,7 +237,7 @@ RunService.RenderStepped:Connect(function(delta)
         lastRender = lastRender - interpolation
     end
     if getgenv().Ordium.Tracing.Enabled and lockedCamTo then
-        local Vel =  lockedCamTo.Character[getgenv().Ordium.Tracing.AimPart].Velocity / getgenv().Ordium.Tracing.Prediction
+        local Vel =  lockedCamTo.Character[getgenv().Ordium.Tracing.AimPart].Velocity * getgenv().Ordium.Tracing.Prediction
         local Main = CFrame.new(Cam.CFrame.p, lockedCamTo.Character[getgenv().Ordium.Tracing.AimPart].Position + (Vel))
         Cam.CFrame = Cam.CFrame:Lerp(Main ,getgenv().Ordium.Tracing.TracingOptions.Smoothness , Enum.EasingStyle.Sine, Enum.EasingDirection.Out)
         Ordium.functions.setAimingType(lockedCamTo, getgenv().Ordium.Tracing.TracingOptions.AimingType) 
