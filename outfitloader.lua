@@ -245,7 +245,6 @@ if game:GetService('Players').LocalPlayer.Character then
         ApplyHat(1235488, game.Players.LocalPlayer.Character)
         ApplyHat(1125510, game.Players.LocalPlayer.Character)
         ApplyHat(71499623, game.Players.LocalPlayer.Character)
-        ApplyHat(12577529187, game.Players.LocalPlayer.Character)
         ApplyHat(10789914680, game.Players.LocalPlayer.Character)
         ApplyHat(11853659267, game.Players.LocalPlayer.Character)
         ApplyHat(12499519674, game.Players.LocalPlayer.Character)
