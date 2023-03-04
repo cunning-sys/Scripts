@@ -176,5 +176,17 @@ game.Players.LocalPlayer.CharacterAdded:Connect(function()
 
         ApplyShirt(11240069098)
         ApplyPants(9985862332)
+    elseif Outfit == "hello" then
+        Headless()
+        Korblox()
+        DestroyAccessorys()
+        
+        ApplyHat(1029025, game.Players.LocalPlayer.Character)
+        ApplyHat(1235488, game.Players.LocalPlayer.Character)
+        ApplyHat(1125510, game.Players.LocalPlayer.Character)
+        ApplyHat(71499623, game.Players.LocalPlayer.Character)
+
+        ApplyShirt(12645147426)
+        ApplyPants(12645168025)
     end
 end)
