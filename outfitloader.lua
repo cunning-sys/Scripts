@@ -118,13 +118,6 @@ function DestroyAccessorys()
 end
 
 game.Players.LocalPlayer.CharacterAdded:Connect(function()
-    local Players = game:GetService("Players")
-    local humanoid = Players.LocalPlayer.Character:WaitForChild("Humanoid")
-    local humanoidDescription = humanoid:WaitForChild("HumanoidDescription")
-
-    humanoidDescription:SetEmotes(emoteTable)
-    humanoidDescription:SetEquippedEmotes(equippedEmotes)
-    
     if Outfit == "Poisoned Purple Sparkle Time" then
         Headless()
         DestroyAccessorys()
