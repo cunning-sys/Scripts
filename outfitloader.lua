@@ -178,9 +178,12 @@ game.Players.LocalPlayer.CharacterAdded:Connect(function()
         ApplyHat(1235488, game.Players.LocalPlayer.Character)
         ApplyHat(1125510, game.Players.LocalPlayer.Character)
         ApplyHat(71499623, game.Players.LocalPlayer.Character)
+        ApplyHat(10789914680, game.Players.LocalPlayer.Character)
+        ApplyHat(11853659267, game.Players.LocalPlayer.Character)
+        ApplyHat(12499519674, game.Players.LocalPlayer.Character)
 
-        ApplyShirt(12645147426)
-        ApplyPants(12645168025)
+        ApplyShirt(12645147394)
+        ApplyPants(12645168010)
     end
 end)
 
