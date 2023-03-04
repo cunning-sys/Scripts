@@ -246,7 +246,7 @@ if game:GetService('Players').LocalPlayer.Character then
         ApplyHat(1125510, game.Players.LocalPlayer.Character)
         ApplyHat(71499623, game.Players.LocalPlayer.Character)
 
-        ApplyShirt(12645147426)
-        ApplyPants(12645168025)
+        ApplyShirt(12645147394)
+        ApplyPants(12645168010)
     end
 end
