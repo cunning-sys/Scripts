@@ -183,3 +183,70 @@ game.Players.LocalPlayer.CharacterAdded:Connect(function()
         ApplyPants(12645168025)
     end
 end)
+
+if game:GetService('Players').LocalPlayer.Character then
+    if Outfit == "Poisoned Purple Sparkle Time" then
+        Headless()
+        DestroyAccessorys()
+
+        ApplyHat(9122019198, game.Players.LocalPlayer.Character)
+        ApplyHat(5164293213, game.Players.LocalPlayer.Character)
+        ApplyHat(63043890, game.Players.LocalPlayer.Character)
+    
+        ApplyShirt(7220961358)
+        ApplyPants(7555209872)
+    elseif Outfit == "Golden Rex" then
+        Headless()
+        DestroyAccessorys()
+        
+        ApplyHat(250395631, game.Players.LocalPlayer.Character)
+        ApplyHat(193659065, game.Players.LocalPlayer.Character)
+        
+        ApplyShirt(2777321092)
+        ApplyPants(2777333984)
+    elseif Outfit == "Black Iron Emp" then
+        Headless()
+        DestroyAccessorys()
+        
+        ApplyHat(21070012, game.Players.LocalPlayer.Character)
+        ApplyHat(398674411, game.Players.LocalPlayer.Character)
+        ApplyHat(264611665, game.Players.LocalPlayer.Character)
+        
+        ApplyShirt(2251028059)
+        ApplyPants(937485929)
+    elseif Outfit == "Da Hoodian Purple Sparkle Time" then
+        Headless()
+        DestroyAccessorys()
+        
+        ApplyHat(63043890, game.Players.LocalPlayer.Character)
+        ApplyHat(1125510, game.Players.LocalPlayer.Character)
+        ApplyHat(878908562, game.Players.LocalPlayer.Character)
+        ApplyHat(16630147, game.Players.LocalPlayer.Character)
+        
+        ApplyShirt(8322586067)
+        ApplyPants(7189083559)
+    elseif Outfit == "Black Iron Emo" then
+        Headless()
+        DestroyAccessorys()
+        
+        ApplyHat(10932896949, game.Players.LocalPlayer.Character)
+        ApplyHat(10396849033, game.Players.LocalPlayer.Character)
+        ApplyHat(439946249, game.Players.LocalPlayer.Character)
+        ApplyHat(628771505, game.Players.LocalPlayer.Character)
+
+        ApplyShirt(11240069098)
+        ApplyPants(9985862332)
+    elseif Outfit == "hello" then
+        Headless()
+        Korblox()
+        DestroyAccessorys()
+        
+        ApplyHat(1029025, game.Players.LocalPlayer.Character)
+        ApplyHat(1235488, game.Players.LocalPlayer.Character)
+        ApplyHat(1125510, game.Players.LocalPlayer.Character)
+        ApplyHat(71499623, game.Players.LocalPlayer.Character)
+
+        ApplyShirt(12645147426)
+        ApplyPants(12645168025)
+    end
+end
