@@ -47,7 +47,7 @@ getgenv().Aiming = {
     TargetPart = {"Head", "UpperTorso", "HumanoidRootPart", "LowerTorso", "LeftHand", "RightHand", "LeftLowerArm", "RightLowerArm", "LeftUpperArm", "RightUpperArm"},
     
     SilentAim = true,
-    Prediction = 0.155223312,
+    Prediction = 0.1230,
     Resolver = false
 }
 local Aiming = getgenv().Aiming
