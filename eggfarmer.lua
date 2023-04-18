@@ -1,4 +1,10 @@
 -- // console
+if not is_console then
+    rconsolecreate()
+end
+
+getgenv().is_console = true
+
 local console = {}
 
 function console.add(name, color)
@@ -50,7 +56,7 @@ task.spawn(function()
     while true do
         count = count == #str and 1 or count + 1
 
-        rconsolename(table.concat({
+        consolesettitle(table.concat({
             'dahood egg farm',
             'scriptware edited',
             'by cunning#0001',
@@ -61,7 +67,6 @@ task.spawn(function()
     end
 end)
 
-rconsolecreate()
 rconsoleprint('\n')
 console.warn('waiting for game to load...')
 repeat task.wait() until game:IsLoaded()
@@ -101,12 +106,12 @@ function collect_eggs()
     for i,v in next, eggs do
         firetouchinterest(rootpart, v, 0)
         firetouchinterest(rootpart, v, 1)
-        console.info('egg collected')
+        rconsoleprint('egg collected', 'magenta')
     end
 end
 
 function refresh_cache()
-    console.info('refreshing server cache')
+    rconsoleprint('refreshing server cache', 'magenta')
 
     local servers = {}
     local page
@@ -132,7 +137,7 @@ function find_new_server()
     
     while task.wait(0.5) do
 
-        console.info(('searching %s available servers...'):format(#servers))
+        rconsoleprint(('searching %s available servers...'):format(#servers), 'magenta')
 
         for idx, server in next, servers do
             if (
@@ -148,7 +153,7 @@ function find_new_server()
                 xpcall(function()
                     teleportservice:TeleportToPlaceInstance(game.PlaceId, server.id)
                 end, function()
-                    console.error('teleport error, retrying')
+                    console.error ('teleport error, retrying')
                     find_new_server()
                 end)
 
