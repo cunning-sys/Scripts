@@ -5,40 +5,11 @@ end
 
 getgenv().is_console = true
 
-local console = {}
-
-function console.add(name, color)
-    color = '@@' .. color:gsub('@', ''):upper() .. '@@'
-
-    console[name] = function(...)
-
-        local args = {...}
-
-        for i,v in next, args do
-            args[i] = tostring(v)
-        end
-
-        local message = table.concat(args, ' ')
-
-        rconsoleprint(color)
-        rconsoleprint('\n [' .. os.date('%X', os.time()) .. ']')
-        rconsoleprint(' [' .. name .. '] ')
-        rconsoleprint('@@LIGHT_GRAY@@')
-        rconsoleprint(message)
-
-    end
-end
-
-console.add('error', 'red')
-console.add('log', 'white')
-console.add('warn', 'yellow')
-console.add('info', 'light_magenta')
-
 -- // init
 queue_on_teleport(readfile('Dahood Egg Farm.lua'))
 
 if not isfolder('dahood_farm') then
-    console.info("creating 'dahood_farm', 'dahood_farm/last.txt', 'dahood_farm/looted.txt' for first time startup")
+    rconsoleprint("creating 'dahood_farm', 'dahood_farm/last.txt', 'dahood_farm/looted.txt' for first time startup", 'magenta')
     makefolder('dahood_farm')
     writefile('dahood_farm/last.txt', tostring(0))
     writefile('dahood_farm/looted.txt', '[]')
@@ -68,7 +39,7 @@ task.spawn(function()
 end)
 
 rconsoleprint('\n')
-console.warn('waiting for game to load...')
+rconsoleprint('waiting for game to load...', 'yellow')
 repeat task.wait() until game:IsLoaded()
 
 -- // variables
@@ -101,7 +72,7 @@ end
 function collect_eggs()
     local eggs = get_eggs()
 
-    console.info(#eggs, 'eggs found')
+    rconsoleprint(#eggs .. ' eggs found', 'magenta')
         
     for i,v in next, eggs do
         firetouchinterest(rootpart, v, 0)
@@ -148,12 +119,12 @@ function find_new_server()
                 (server.playing < 35)
             ) then
                 add_looted(server.id)
-                console.info(("teleporting to new server '%s' with %s/%s players"):format(server.id, server.playing, server.maxPlayers))
+                rconsoleprint(("teleporting to new server '%s' with %s/%s players"):format(server.id, server.playing, server.maxPlayers), 'magenta')
 
                 xpcall(function()
                     teleportservice:TeleportToPlaceInstance(game.PlaceId, server.id)
                 end, function()
-                    console.error ('teleport error, retrying')
+                    rconsoleprint('teleport error, retrying', 'red')
                     find_new_server()
                 end)
 
@@ -166,9 +137,9 @@ end
 -- // script
 
 if #get_eggs() == 0 then
-    console.warn('server has 0 eggs, skipping')
+    rconsoleprint('server has 0 eggs, skipping', 'yellow')
 else
-    console.warn('waiting for character to load...')
+    rconsoleprint('waiting for character to load...', 'yellow')
     character:WaitForChild('FULLY_LOADED_CHAR')
     rootpart = character:WaitForChild('HumanoidRootPart')    
     collect_eggs()
@@ -179,7 +150,7 @@ if tick() - tonumber(readfile('dahood_farm/last.txt')) > 120 then
 end
 
 teleportservice.TeleportInitFailed:Connect(function()
-    console.error('teleport error, retrying')
+    rconsoleprint('teleport error, retrying', 'red')
     find_new_server()
 end)
 
