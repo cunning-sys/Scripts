@@ -1,5 +1,3 @@
-hookfunction(game.Players.LocalPlayer.IsInGroup, function() return true end)
-loadstring(game:HttpGet("https://raw.githubusercontent.com/Nosssa/NossLock/main/AntiAimViewer"))()
 local Aiming = loadstring(game:HttpGet("https://raw.githubusercontent.com/cunning-sys/Scripts/main/aimingmodule.lua"))()
 
 local Workspace = game:GetService("Workspace")
@@ -27,24 +25,15 @@ function Aiming.Check()
     return true
 end
 
-
-
-task.spawn(function()
-    while task.wait() do
-        if Aiming.Resolver and Aiming.Selected ~= nil and (Aiming.Selected.Character)  then
-            local oldVel = game.Players[Aiming.Selected.Name].Character.HumanoidRootPart.Velocity
-            
-            game.Players[Aiming.Selected.Name].Character.HumanoidRootPart.Velocity = Vector3.new(oldVel.X, -0, oldVel.Z)
-        end 
-    end
-end)
-
 local __index
 __index = hookmetamethod(game, "__index", function(t, k)
     if (t:IsA("Mouse") and (k == "Hit" or k == "Target") and Aiming.Check()) then
         local SelectedPart = Aiming.SelectedPart
         if (Aiming.BulletRedirection and (k == "Hit" or k == "Target")) then
-            local Hit = SelectedPart.CFrame + (SelectedPart.Velocity * Aiming.Prediction)
+            local Offset = Aiming.Selected.Character.Humanoid.MoveDirection * (Aiming.Selected.Character.Humanoid.WalkSpeed * Aiming.Prediction)
+            local Position = SelectedPart.CFrame.Position + Offset
+            local lookVector = SelectedPart.CFrame.lookVector
+            local Hit = CFrame.new(Position, Position + lookVector)
             
             return (k == "Hit" and Hit or SelectedPart)
         end
