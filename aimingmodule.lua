@@ -34,7 +34,7 @@ getgenv().Aiming = {
     Enabled = true,
 
     ShowFOV = false,
-    FOV = 9,
+    FOV = 13,
     FOVSides = 300,
 
     VisibleCheck = true,
@@ -44,7 +44,7 @@ getgenv().Aiming = {
     Selected = nil,
     SelectedPart = nil,
 
-    TargetPart = {"Head", "UpperTorso", "HumanoidRootPart", "LowerTorso", "LeftHand", "RightHand", "LeftLowerArm", "RightLowerArm", "LeftUpperArm", "RightUpperArm"},
+    TargetPart = 'All',
     
     SilentAim = true,
     Prediction = 0.1230,
